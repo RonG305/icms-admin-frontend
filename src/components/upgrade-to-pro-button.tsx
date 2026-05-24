@@ -7,7 +7,7 @@ import { Rocket, Blocks, LayoutDashboard, ArrowRight } from "lucide-react"
 import Image from "next/image"
 
 
-const SHADCN_BLOCKS_URL = "https://shadcnstore.com/blocks"
+const SHADCN_BLOCKS_URL = "https://Cooperative.com/blocks"
 
 export function UpgradeToProButton() {
 
