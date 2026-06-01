@@ -17,10 +17,24 @@ export default function DashboardLayout({
   const [themeCustomizerOpen, setThemeCustomizerOpen] = React.useState(false);
   const { config } = useSidebarConfig();
 
+  const sidebarWidthMap: Record<string, string> = {
+    compact: "13rem",
+    comfortable: "16rem",
+    spacious: "20rem",
+  }
+
+  const contentWidthClass: Record<string, string> = {
+    fluid: "w-full",
+    container: "max-w-screen-xl mx-auto w-full",
+    fixed: "max-w-5xl mx-auto w-full",
+  }
+
+  const contentClass = contentWidthClass[config.contentWidth] ?? "w-full"
+
   return (
     <SidebarProvider
       style={{
-        "--sidebar-width": "16rem",
+        "--sidebar-width": sidebarWidthMap[config.sidebarWidth] ?? "16rem",
         "--sidebar-width-icon": "3rem",
         "--header-height": "calc(var(--spacing) * 14)",
       } as React.CSSProperties}
@@ -37,7 +51,7 @@ export default function DashboardLayout({
             <SiteHeader />
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 md:px-6 px-4">
                   {children}
                 </div>
               </div>
@@ -51,7 +65,7 @@ export default function DashboardLayout({
             <SiteHeader />
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 md:px-6 px-4">
                   {children}
                 </div>
               </div>
@@ -72,7 +86,6 @@ export default function DashboardLayout({
         open={themeCustomizerOpen}
         onOpenChange={setThemeCustomizerOpen}
       />
-      <UpgradeToProButton />
     </SidebarProvider>
   );
 }

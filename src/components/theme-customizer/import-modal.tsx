@@ -25,10 +25,10 @@ export function ImportModal({ open, onOpenChange, onImport }: ImportModalProps) 
       // Parse CSS content into light and dark theme variables
       const lightTheme: Record<string, string> = {}
       const darkTheme: Record<string, string> = {}
-      
+
       // Split CSS into sections
       const cssText = importText.replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
-      
+
       // Extract :root section (light theme)
       const rootMatch = cssText.match(/:root\s*\{([^}]+)\}/)
       if (rootMatch) {
@@ -39,7 +39,7 @@ export function ImportModal({ open, onOpenChange, onImport }: ImportModalProps) 
           lightTheme[variable.trim()] = value.trim()
         }
       }
-      
+
       // Extract .dark section (dark theme)
       const darkMatch = cssText.match(/\.dark\s*\{([^}]+)\}/)
       if (darkMatch) {
@@ -50,11 +50,11 @@ export function ImportModal({ open, onOpenChange, onImport }: ImportModalProps) 
           darkTheme[variable.trim()] = value.trim()
         }
       }
-      
+
       // Store the imported theme
       const importedThemeData = { light: lightTheme, dark: darkTheme }
       onImport(importedThemeData)
-      
+
       onOpenChange(false)
       setImportText("")
     } catch (error) {
