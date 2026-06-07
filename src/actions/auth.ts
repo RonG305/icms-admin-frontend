@@ -2,7 +2,7 @@
 
 import { BASE_URLS } from "@/api/base"
 import { makeApiRequest } from "@/api/main"
-import { RegisterUserData, UserProfile } from "@/types/auth"
+import { RegisterUserData } from "@/types/auth"
 import { cookies } from "next/headers"
 
 export const registerUser = async (userData: RegisterUserData) => {
@@ -67,6 +67,59 @@ export const loginUser = async (email: string, password: string, organizationId?
 //     }
 //     return data
 // }
+
+export const updateUser = async (id: string, userData: Partial<RegisterUserData>) => {
+    const response = await makeApiRequest(BASE_URLS.AUTH_URL, `/users/${id}/update/`, {
+        method: 'PATCH',
+        withToken: true,
+        body: userData,
+        tag: 'update-user',
+    })
+    const data = await response?.json()
+    if (!response?.ok) {
+        return { error: data?.message || data?.error || 'Failed to update user' }
+    }
+    return data
+}
+
+export const activateUser = async (id: string) => {
+    const response = await makeApiRequest(BASE_URLS.AUTH_URL, `/users/${id}/activate/`, {
+        method: 'PATCH',
+        withToken: true,
+        tag: 'activate-user',
+    })
+    if (!response?.ok) {
+        const data = await response?.json().catch(() => null)
+        return { error: data?.message || data?.error || 'Failed to activate user' }
+    }
+    return { success: true }
+}
+
+export const deactivateUser = async (id: string) => {
+    const response = await makeApiRequest(BASE_URLS.AUTH_URL, `/users/${id}/deactivate/`, {
+        method: 'PATCH',
+        withToken: true,
+        tag: 'deactivate-user',
+    })
+    if (!response?.ok) {
+        const data = await response?.json().catch(() => null)
+        return { error: data?.message || data?.error || 'Failed to deactivate user' }
+    }
+    return { success: true }
+}
+
+export const deleteUser = async (id: string) => {
+    const response = await makeApiRequest(BASE_URLS.AUTH_URL, `/users/${id}/delete/`, {
+        method: 'DELETE',
+        withToken: true,
+        tag: 'delete-user',
+    })
+    if (!response?.ok) {
+        const data = await response?.json().catch(() => null)
+        return { error: data?.message || data?.error || 'Failed to delete user' }
+    }
+    return { success: true }
+}
 
 export const logoutUser = async () => {
     const cookieStore = await cookies()

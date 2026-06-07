@@ -42,6 +42,11 @@ const data = {
           icon: "solar:users-group-rounded-linear",
         },
         {
+          title: "Exit Requests",
+          url: "/organization/exit-requests",
+          icon: "solar:exit-linear",
+        },
+        {
           title: "Shares",
           url: "/organization/shares",
           icon: "solar:chart-square-linear",

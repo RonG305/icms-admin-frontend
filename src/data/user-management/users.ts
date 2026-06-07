@@ -1,63 +1,93 @@
-import { BASE_URLS } from '@/api/base'
-import { apiCall, apiCallList, apiCallObject } from '@/utils/apiErrors'
-import { User } from '@/types/user'
 
-const SERVICE_ERROR = 'Entity service not configured'
+import { BASE_URLS } from "@/api/base"
+import { makeApiRequest } from "@/api/main"
+import { MemberListParams, Organization, OrganizationListParams, OrganizationMember } from "@/types/organization"
+import { buildQuery } from "@/utils/buildQuery"
 
-const getBaseUrl = () => BASE_URLS.GPX_AUTH_URL
+const SERVICE_ERROR = 'Auth service not configured'
+const getBaseUrl = () => BASE_URLS.AUTH_URL
+const emptyList = (message: string) => ({ error: message, data: [] as Organization[], count: 0 })
+const emptyMemberList = (message: string) => ({ error: message, data: [] as OrganizationMember[], total: 0 })
 
-const emptyList = (message: string) => ({ error: message, results: [] as unknown[], count: 0 })
 
-type UserListParams = { limit?: number; offset?: number; search?: string; is_active?: boolean; parent?: string; entity_id?: string }
 
-export const getSSOOptions = async () => {
-  const baseUrl = getBaseUrl()
-  if (!baseUrl) return emptyList(SERVICE_ERROR)
-  const res = await apiCall<any>(baseUrl, `/sso/options/`, {
-    method: 'GET',
-    withToken: false,
-    tag: 'SSOOptions',
-    label: 'sso:options',
-  })
-  if (!res.ok) return emptyList((res.error?.detail as string) || 'Failed to fetch SSO options')
-  return res.data
+export const getOrganizations = async (params?: OrganizationListParams) => {
+    if (!getBaseUrl()) return emptyList(SERVICE_ERROR)
+
+    const query = buildQuery({
+        limit: params?.limit,
+        offset: params?.offset,
+        search: params?.search,
+        is_active: params?.is_active,
+    })
+
+    const response = await makeApiRequest(getBaseUrl(), `/organization/users/${query}`, {
+        method: 'GET',
+        withToken: false,
+        tag: 'organizations-list',
+    })
+
+    console.log("Fetch organizations response: ", response)
+
+    if (!response?.ok) {
+        const data = await response?.json().catch(() => null)
+        return emptyList(data?.detail || 'Failed to fetch organizations')
+    }
+
+    const data = await response.json()
+    return {
+        count: data.count ?? (Array.isArray(data) ? data.length : 0),
+        data: (Array.isArray(data) ? data : data.data ?? []) as Organization[],
+    }
 }
 
-export const getAllUsers = async ({ limit, offset, search, is_active, parent, entity_id }: UserListParams) => {
-  const baseUrl = getBaseUrl()
-  if (!baseUrl) return emptyList(SERVICE_ERROR)
-  const qs = new URLSearchParams()
-  if (limit !== undefined) qs.set('limit', String(limit))
-  if (offset !== undefined) qs.set('offset', String(offset))
-  if (search) qs.set('search', search)
-  if (is_active !== undefined) qs.set('is_active', String(is_active))
-  if (parent) qs.set('parent', parent)
-  if (entity_id) qs.set('entity_id', entity_id)
-  const path = `/users/?${qs.toString()}`
-  const data = await apiCallList(baseUrl, path, {
-    method: 'GET',
-    withToken: true,
-    tag: 'UsersList',
-    label: 'users:list',
-  })
-  if (data?.error) return data
-  const userStats = {
-    totalUsers: data.count,
-    active: (data.results as User[]).filter(u => u.is_active).length,
-    inactive: (data.results as User[]).filter(u => !u.is_active).length,
-  }
-  return { count: data.count, results: data.results, stats: userStats }
+export const getOrganization = async (id: string) => {
+    if (!getBaseUrl()) return { error: SERVICE_ERROR }
+
+    const response = await makeApiRequest(getBaseUrl(), `/organizations/${id}/`, {
+        method: 'GET',
+        withToken: true,
+        tag: `organization-${id}`,
+    })
+
+    const data = await response?.json().catch(() => null)
+
+    if (!response?.ok) {
+        return { error: data?.detail || 'Failed to fetch organization' }
+    }
+
+    return data as Organization
 }
 
-export const getUserById = async (id: string) => {
-  const baseUrl = getBaseUrl()
-  if (!baseUrl) return { error: SERVICE_ERROR, entity: null }
-  const data = await apiCallObject(baseUrl, `/users/${id}/`, {
-    method: 'GET',
-    withToken: true,
-    tag: `User-${id}`,
-    label: 'users:detail',
-  })
-  if (data?.error) return { error: data.error, entity: null }
-  return { entity: data }
+
+export const getOrganizationMembers = async (orgId: string, params?: MemberListParams) => {
+    if (!getBaseUrl()) return emptyMemberList(SERVICE_ERROR)
+
+    const query = buildQuery({
+        limit: params?.limit,
+        offset: params?.offset,
+        search: params?.search,
+        role: params?.role,
+    })
+
+    const response = await makeApiRequest(getBaseUrl(), `/organization/members/${orgId}/${query}`, {
+        method: 'GET',
+        withToken: true,
+        tag: `organization-${orgId}-members`,
+    })
+
+    if (!response?.ok) {
+        const data = await response?.json().catch(() => null)
+        return { error: data?.detail || data?.message || 'Failed to fetch members', data: [] as OrganizationMember[], total: 0 }
+    }
+
+    const data = await response.json()
+    console.log("Fetch organization members response: ", data)
+    return {
+        total: data.meta?.total ?? data.count ?? (Array.isArray(data) ? data.length : 0),
+        data: (data.data ?? (Array.isArray(data) ? data : [])) as OrganizationMember[],
+    }
 }
+
+
+

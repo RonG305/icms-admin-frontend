@@ -5,6 +5,7 @@ import { StatCards } from "./components/stat-cards"
 import { DataTable } from "./components/data-table"
 
 import initialUsersData from "./data.json"
+import { Card } from "@/components/ui/card"
 
 interface User {
   id: number
@@ -71,14 +72,14 @@ export default function UsersPage() {
         <StatCards />
       </div>
       
-      <div className="@container/main px-4 lg:px-6 mt-8 lg:mt-12">
+      <Card>
         <DataTable 
           users={users}
           onDeleteUser={handleDeleteUser}
           onEditUser={handleEditUser}
           onAddUser={handleAddUser}
         />
-      </div>
+      </Card>
     </div>
   )
 }

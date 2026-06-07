@@ -1,67 +1,48 @@
-import { BASE_URLS } from '@/api/base'
-import { apiCallList, apiCallObject } from '@/utils/apiErrors'
+import { BASE_URLS } from "@/api/base"
+import { makeApiRequest } from "@/api/main"
+import { Role } from "@/types/auth"
+import { buildQuery } from "@/utils/buildQuery"
 
-const SERVICE_ERROR = 'Auth service not configured'
+type RoleListParams = { page?: number; limit?: number; search?: string }
 
-const getBaseUrl = () => BASE_URLS.GPX_AUTH_URL;
+const getBaseUrl = () => BASE_URLS.AUTH_URL
+const emptyList = (message: string) => ({ error: message, data: [] as Role[], count: 0 })
 
-const emptyList = (message: string) => ({ error: message, results: [] as unknown[], count: 0 })
-
-type RoleListParams = { search?: string; limit?: number; offset?: number }
-
-type ManagePermissionsBody = { action: string; permissions: string[] }
-
-export const getRoles = async (entityId: string, params: RoleListParams = {}) => {
+export const getRoles = async (params: RoleListParams = {}) => {
     const baseUrl = getBaseUrl()
-    if (!baseUrl) return emptyList(SERVICE_ERROR)
-    const query = new URLSearchParams()
-    Object.entries(params).forEach(([k, v]) => v !== undefined && query.set(k, String(v)))
-    return apiCallList(baseUrl, `/entities/${entityId}/roles/?${query}`, {
-        method: 'GET',
+    if (!baseUrl) return emptyList("Auth service not configured")
+
+    const query = buildQuery({ page: params.page, limit: params.limit, search: params.search })
+
+    const response = await makeApiRequest(baseUrl, `/role-permission/roles${query}`, {
+        method: "GET",
         withToken: true,
-        tag: 'roles',
-        label: 'roles:list',
+        tag: "roles-list",
     })
+
+    if (!response?.ok) {
+        const data = await response?.json().catch(() => null)
+        return emptyList(data?.message || "Failed to fetch roles")
+    }
+
+    const data = await response.json()
+    return {
+        count: data.meta?.total ?? data.count ?? (Array.isArray(data) ? data.length : 0),
+        data: (Array.isArray(data) ? data : data.data ?? []) as Role[],
+    }
 }
 
-export const getRolePermissions = async (entityId: string, roleId: string) => {
+export const getRole = async (id: string) => {
     const baseUrl = getBaseUrl()
-    if (!baseUrl) return emptyList(SERVICE_ERROR)
-    return apiCallList(baseUrl, `/entities/${entityId}/roles/${roleId}/permissions/`, {
-        method: 'GET',
-        withToken: true,
-        label: 'roles:permissions',
-    })
-}
+    if (!baseUrl) return { error: "Auth service not configured" }
 
-export const manageRolePermissions = async (entityId: string, roleId: string, body: ManagePermissionsBody) => {
-    const baseUrl = getBaseUrl()
-    if (!baseUrl) return { error: SERVICE_ERROR }
-    return apiCallObject(baseUrl, `/entities/${entityId}/roles/${roleId}/manage-permissions/`, {
-        method: 'POST',
-        body,
+    const response = await makeApiRequest(baseUrl, `/role-permission/role/${id}`, {
+        method: "GET",
         withToken: true,
-        label: 'roles:manage-permissions',
+        tag: `role-${id}`,
     })
-}
 
-export const getRoleSites = async (entityId: string, roleId: string) => {
-    const baseUrl = getBaseUrl()
-    if (!baseUrl) return emptyList(SERVICE_ERROR)
-    return apiCallList(baseUrl, `/entities/${entityId}/roles/${roleId}/sites/`, {
-        method: 'GET',
-        withToken: true,
-        label: 'roles:sites',
-    })
-}
-
-export const getRoleMemberships = async (entityId: string) => {
-    const baseUrl = getBaseUrl()
-    if (!baseUrl) return emptyList(SERVICE_ERROR)
-    return apiCallList(baseUrl, `/entities/${entityId}/profile-role-membership/`, {
-        method: 'GET',
-        withToken: true,
-        tag: 'role-memberships',
-        label: 'roles:memberships',
-    })
+    const data = await response?.json().catch(() => null)
+    if (!response?.ok) return { error: data?.message || "Failed to fetch role" }
+    return data as Role
 }

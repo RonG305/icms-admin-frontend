@@ -132,3 +132,19 @@ export interface MemberResponse {
         previous: string | null;
     };
 }
+
+export interface ExitRequest {
+    id: string;
+    member_id: string;
+    reason: 'voluntary' | 'death' | 'expulsion' | 'incapacitation' | 'other';
+    reason_details?: string;
+    notes?: string;
+    status: 'pending' | 'under_review' | 'approved' | 'rejected' | 'completed';
+    snapshot_shares?: number;
+    snapshot_dividend_balance?: string;
+    settlement_amount?: string;
+    reviewed_by?: string;
+    created_at: string;
+    updated_at: string;
+    member?: Member;
+}

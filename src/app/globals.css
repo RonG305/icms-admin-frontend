@@ -55,7 +55,7 @@
   --popover-foreground: oklch(0.13 0.01 240);
   --primary: #018749;
   --warning: oklch(79.586% 0.15226 90.245);
-  --success: #0B7643;
+  --success: #25a76a;
   --danger: oklch(57.7% 0.245 27.325);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: #1D1B1B;
@@ -179,6 +179,8 @@ html {
 }
 
 
+
+
 [data-slot="sidebar-content"]::-webkit-scrollbar {
   width: 3px;
 }
@@ -198,6 +200,11 @@ html {
 
 /* Firefox */
 [data-slot="sidebar-content"] {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--sidebar-border) 60%, transparent) transparent;
+  
+}
+.thin-scollbar {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in oklch, var(--sidebar-border) 60%, transparent) transparent;
 }

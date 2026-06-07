@@ -1,11 +1,7 @@
-import React from 'react'
+import Shares from '@/components/Organization/Shares'
 
-const page = () => {
-  return (
-    <div>
-       Shares
-    </div>
-  )
+type SearchParams = Record<string, string | string[] | undefined>
+
+export default function SharesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  return <Shares searchParams={searchParams} />
 }
-
-export default page

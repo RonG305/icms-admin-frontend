@@ -1,0 +1,2851 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/organization/organizations": {
+      "post": {
+        "operationId": "OrganizationController_createOrganization",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganizationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "tags": [
+          "Organization"
+        ]
+      },
+      "get": {
+        "operationId": "OrganizationController_getAllOrganizations",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page for pagination",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term to filter organizations by name",
+            "schema": {
+              "example": "Acme",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "tags": [
+          "Organization"
+        ]
+      }
+    },
+    "/api/v1/organization/organizations/{id}": {
+      "get": {
+        "operationId": "OrganizationController_getOrganizationById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "tags": [
+          "Organization"
+        ]
+      },
+      "patch": {
+        "operationId": "OrganizationController_updateOrganization",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrganizationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "tags": [
+          "Organization"
+        ]
+      },
+      "delete": {
+        "operationId": "OrganizationController_deleteOrganization",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "tags": [
+          "Organization"
+        ]
+      }
+    },
+    "/api/v1/organization/economic-activities": {
+      "post": {
+        "operationId": "EconomicActivityController_createEconomicActivity",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEconomicActivityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Economic activity created successfully"
+          }
+        },
+        "summary": "Create a new economic activity",
+        "tags": [
+          "Economic Activities"
+        ]
+      },
+      "get": {
+        "operationId": "EconomicActivityController_getAllEconomicActivities",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page for pagination",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term to filter organizations by name",
+            "schema": {
+              "example": "Acme",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of economic activities"
+          }
+        },
+        "summary": "Get all economic activities",
+        "tags": [
+          "Economic Activities"
+        ]
+      }
+    },
+    "/api/v1/organization/economic-activities/{id}": {
+      "get": {
+        "operationId": "EconomicActivityController_getEconomicActivityById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Economic activity details"
+          },
+          "404": {
+            "description": "Economic activity not found"
+          }
+        },
+        "summary": "Get a specific economic activity by ID",
+        "tags": [
+          "Economic Activities"
+        ]
+      },
+      "patch": {
+        "operationId": "EconomicActivityController_updateEconomicActivity",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEconomicActivityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Economic activity updated successfully"
+          },
+          "404": {
+            "description": "Economic activity not found"
+          }
+        },
+        "summary": "Update an economic activity",
+        "tags": [
+          "Economic Activities"
+        ]
+      },
+      "delete": {
+        "operationId": "EconomicActivityController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Economic activity deleted successfully"
+          },
+          "404": {
+            "description": "Economic activity not found"
+          }
+        },
+        "summary": "Delete an economic activity",
+        "tags": [
+          "Economic Activities"
+        ]
+      }
+    },
+    "/api/v1/organization/typologies": {
+      "post": {
+        "operationId": "TypologyController_createTypology",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTypologyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Typology created successfully"
+          }
+        },
+        "summary": "Create a new typology",
+        "tags": [
+          "Typologies"
+        ]
+      },
+      "get": {
+        "operationId": "TypologyController_getAllTypologies",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page for pagination",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term to filter organizations by name",
+            "schema": {
+              "example": "Acme",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of typologies"
+          }
+        },
+        "summary": "Get all typologies",
+        "tags": [
+          "Typologies"
+        ]
+      }
+    },
+    "/api/v1/organization/typologies/{id}": {
+      "get": {
+        "operationId": "TypologyController_getTypologyById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typology details"
+          },
+          "404": {
+            "description": "Typology not found"
+          }
+        },
+        "summary": "Get a specific typology by ID",
+        "tags": [
+          "Typologies"
+        ]
+      },
+      "patch": {
+        "operationId": "TypologyController_updateTypology",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTypologyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Typology updated successfully"
+          },
+          "404": {
+            "description": "Typology not found"
+          }
+        },
+        "summary": "Update a typology",
+        "tags": [
+          "Typologies"
+        ]
+      },
+      "delete": {
+        "operationId": "TypologyController_deleteTypology",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Typology deleted successfully"
+          },
+          "404": {
+            "description": "Typology not found"
+          }
+        },
+        "summary": "Delete a typology",
+        "tags": [
+          "Typologies"
+        ]
+      }
+    },
+    "/api/v1/organization/structures": {
+      "post": {
+        "operationId": "StructureController_createStructure",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStructureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Organization structure created successfully"
+          }
+        },
+        "summary": "Create a new organization structure",
+        "tags": [
+          "Organization Structures"
+        ]
+      },
+      "get": {
+        "operationId": "StructureController_getAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page for pagination",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term to filter organizations by name",
+            "schema": {
+              "example": "Acme",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of organization structures"
+          }
+        },
+        "summary": "Get all organization structures",
+        "tags": [
+          "Organization Structures"
+        ]
+      }
+    },
+    "/api/v1/organization/structures/{id}": {
+      "get": {
+        "operationId": "StructureController_getStructureById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization structure details"
+          },
+          "404": {
+            "description": "Organization structure not found"
+          }
+        },
+        "summary": "Get a specific organization structure by ID",
+        "tags": [
+          "Organization Structures"
+        ]
+      },
+      "patch": {
+        "operationId": "StructureController_updateStructure",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStructureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Organization structure updated successfully"
+          },
+          "404": {
+            "description": "Organization structure not found"
+          }
+        },
+        "summary": "Update an organization structure",
+        "tags": [
+          "Organization Structures"
+        ]
+      },
+      "delete": {
+        "operationId": "StructureController_deleteStructure",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Organization structure deleted successfully"
+          },
+          "404": {
+            "description": "Organization structure not found"
+          }
+        },
+        "summary": "Delete an organization structure",
+        "tags": [
+          "Organization Structures"
+        ]
+      }
+    },
+    "/api/v1/organization/membership-types": {
+      "post": {
+        "operationId": "MembershipTypeController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMembershipTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Membership type created successfully"
+          }
+        },
+        "summary": "Create a new membership type",
+        "tags": [
+          "Membership Types"
+        ]
+      },
+      "get": {
+        "operationId": "MembershipTypeController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of membership types"
+          }
+        },
+        "summary": "Get all membership types",
+        "tags": [
+          "Membership Types"
+        ]
+      }
+    },
+    "/api/v1/organization/membership-types/{id}": {
+      "get": {
+        "operationId": "MembershipTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Membership type details"
+          },
+          "404": {
+            "description": "Membership type not found"
+          }
+        },
+        "summary": "Get a specific membership type by ID",
+        "tags": [
+          "Membership Types"
+        ]
+      },
+      "patch": {
+        "operationId": "MembershipTypeController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMembershipTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Membership type updated successfully"
+          },
+          "404": {
+            "description": "Membership type not found"
+          }
+        },
+        "summary": "Update a membership type",
+        "tags": [
+          "Membership Types"
+        ]
+      },
+      "delete": {
+        "operationId": "MembershipTypeController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Membership type deleted successfully"
+          },
+          "404": {
+            "description": "Membership type not found"
+          }
+        },
+        "summary": "Delete a membership type",
+        "tags": [
+          "Membership Types"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/declarations": {
+      "post": {
+        "operationId": "DividendController_createDeclaration",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDividendDeclarationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Declaration created"
+          },
+          "409": {
+            "description": "Duplicate declaration for the same year"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Declare a dividend for a financial year",
+        "tags": [
+          "Dividends"
+        ]
+      },
+      "get": {
+        "operationId": "DividendController_getAllDeclarations",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "financial_year",
+            "required": false,
+            "in": "query",
+            "description": "Filter by financial year",
+            "schema": {
+              "example": "2024",
+              "type": "string"
+            }
+          },
+          {
+            "name": "organization_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by organization",
+            "schema": {
+              "example": "clorg123",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "List all dividend declarations (filterable by year / org)",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/declarations/{id}": {
+      "get": {
+        "operationId": "DividendController_getDeclaration",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a declaration with its recent transactions",
+        "tags": [
+          "Dividends"
+        ]
+      },
+      "patch": {
+        "operationId": "DividendController_updateDeclaration",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDividendDeclarationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Already distributed — cannot edit"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Update a declaration (only before distribution)",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/declarations/{id}/summary": {
+      "get": {
+        "operationId": "DividendController_getDeclarationSummary",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Aggregated summary: total credited, withdrawn, reinvested, outstanding",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/declarations/{id}/distribute": {
+      "post": {
+        "description": "Computes per-share allocation (total_pool ÷ total active shares) and credits each member's dividend account atomically. Idempotent guard prevents double-distribution.",
+        "operationId": "DividendController_distributeDeclaration",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DistributeDividendDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Distribution complete"
+          },
+          "400": {
+            "description": "No eligible members or zero per-share amount"
+          },
+          "409": {
+            "description": "Already distributed"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Distribute a declared dividend to all active members",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/accounts/{member_id}": {
+      "get": {
+        "operationId": "DividendController_getAccount",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Account not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a member's dividend account (current balance)",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/accounts/{member_id}/summary": {
+      "get": {
+        "operationId": "DividendController_getWalletSummary",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Lifetime wallet summary: total credited / withdrawn / reinvested",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/accounts/{member_id}/statement": {
+      "get": {
+        "operationId": "DividendController_getStatement",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "transaction_type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "credit",
+                "withdrawal",
+                "reinvestment"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Paginated transaction statement for a member's dividend account",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/accounts/{member_id}/withdraw": {
+      "post": {
+        "description": "Validates sufficient balance, records ledger entry, and debits account — all in one transaction.",
+        "operationId": "DividendController_withdraw",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawDividendDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Insufficient balance"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Process a cash withdrawal from a member's dividend account",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/dividends/accounts/{member_id}/reinvest": {
+      "post": {
+        "description": "Converts amount into shares at par value (floor division). Any fractional remainder stays in the dividend account. Creates both a DividendTransaction (reinvestment) and a ShareTransaction (coop_purchase) atomically.",
+        "operationId": "DividendController_reinvest",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReinvestDividendDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Insufficient balance, below par value, or exceeds share cap"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Reinvest dividend balance as cooperative shares",
+        "tags": [
+          "Dividends"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/config": {
+      "post": {
+        "operationId": "SharesController_createConfig",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShareConfigDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Configuration created"
+          },
+          "409": {
+            "description": "Configuration already exists"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Create share configuration for an organization",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/config/{organization_id}": {
+      "get": {
+        "operationId": "SharesController_getConfig",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get share configuration for an organization",
+        "tags": [
+          "Shares"
+        ]
+      },
+      "patch": {
+        "operationId": "SharesController_updateConfig",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShareConfigDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Update share configuration (par value, caps, flags)",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/accounts": {
+      "get": {
+        "operationId": "SharesController_listAccounts",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "organization_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by organization",
+            "schema": {
+              "example": "clorg123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "john",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "List all share accounts (filterable by organization)",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/accounts/{member_id}": {
+      "get": {
+        "operationId": "SharesController_getAccount",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a member's share account and current balance",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/accounts/{member_id}/summary": {
+      "get": {
+        "operationId": "SharesController_getAccountSummary",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Lifetime summary: purchases, sales, transfers",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/accounts/{member_id}/statement": {
+      "get": {
+        "operationId": "SharesController_getStatement",
+        "parameters": [
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "transaction_type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "coop_purchase",
+                "member_purchase",
+                "transfer",
+                "coop_sale",
+                "member_sale"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "approved",
+                "rejected",
+                "completed",
+                "cancelled"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Paginated share transaction statement for a member",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/transactions/pending": {
+      "get": {
+        "operationId": "SharesController_listPending",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "List all pending transactions awaiting management approval",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/transactions/{id}": {
+      "get": {
+        "operationId": "SharesController_getTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a single share transaction by ID",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/transactions/buy": {
+      "post": {
+        "description": "Creates a coop_purchase transaction at par value. If approval_required is set on the organization config, the transaction is placed in pending status and must be approved.",
+        "operationId": "SharesController_buyShares",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuySharesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Exceeds max shares cap"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Member purchases shares from the cooperative",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/transactions/sell": {
+      "post": {
+        "description": "Creates a coop_sale transaction. Validates the member holds enough shares.",
+        "operationId": "SharesController_sellShares",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SellSharesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Insufficient shares"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Member sells shares back to the cooperative",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/transactions/transfer": {
+      "post": {
+        "description": "Transfers shares between members. Validates allow_member_trading flag, sufficient source shares, and recipient cap. Atomic — either both accounts update or neither.",
+        "operationId": "SharesController_transferShares",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferSharesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Insufficient shares, transfers disabled, or cap exceeded"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Member-to-member share transfer",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/shares/transactions/{id}/decision": {
+      "patch": {
+        "description": "On approval: share balances are updated atomically. On rejection: transaction is closed with no balance changes.",
+        "operationId": "SharesController_processDecision",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Transaction already processed"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Approve or reject a pending share transaction",
+        "tags": [
+          "Shares"
+        ]
+      }
+    },
+    "/api/v1/organization/members/exit-requests": {
+      "post": {
+        "description": "Snapshots the member's current shares and dividend balance, computes the total settlement amount (share_valuation + dividend_balance), and places the request in pending status.",
+        "operationId": "MemberExitController_submit",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExitRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Exit request submitted"
+          },
+          "400": {
+            "description": "Member suspended, already exited, or missing accounts"
+          },
+          "409": {
+            "description": "An open exit request already exists for this member"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Submit a member exit request",
+        "tags": [
+          "Member Exit Requests"
+        ]
+      },
+      "get": {
+        "operationId": "MemberExitController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "under_review",
+                "approved",
+                "rejected",
+                "completed"
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": true,
+            "in": "query",
+            "description": "Search by member name or ID",
+            "schema": {
+              "example": "search term",
+              "type": "string"
+            }
+          },
+          {
+            "name": "member_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by member ID",
+            "schema": {
+              "example": "clmember123",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "List all exit requests (filterable by status / member)",
+        "tags": [
+          "Member Exit Requests"
+        ]
+      }
+    },
+    "/api/v1/organization/members/exit-requests/{id}": {
+      "get": {
+        "operationId": "MemberExitController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a single exit request with full member account snapshot",
+        "tags": [
+          "Member Exit Requests"
+        ]
+      }
+    },
+    "/api/v1/organization/members/exit-requests/{id}/review": {
+      "patch": {
+        "description": "On approval: member is suspended to block new transactions during settlement. On rejection: member is restored to active status.",
+        "operationId": "MemberExitController_review",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewExitRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Request already finalised"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Management review: approve, reject, or flag as under-review",
+        "tags": [
+          "Member Exit Requests"
+        ]
+      }
+    },
+    "/api/v1/organization/members/exit-requests/{id}/settle": {
+      "patch": {
+        "description": "Must be in approved status. Atomically: zeros share account, zeros dividend balance, creates audit trail transactions for both, marks member as exited (deleted).",
+        "operationId": "MemberExitController_settle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettleExitRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Request is not in approved status"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Record settlement disbursement and close the member account",
+        "tags": [
+          "Member Exit Requests"
+        ]
+      }
+    },
+    "/api/v1/organization/members/exit-requests/{id}/cancel": {
+      "patch": {
+        "description": "Only the member who submitted can cancel. Only works on pending requests.",
+        "operationId": "MemberExitController_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "member_id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Request is past pending status"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Member cancels their own pending exit request",
+        "tags": [
+          "Member Exit Requests"
+        ]
+      }
+    },
+    "/api/v1/organization/members": {
+      "post": {
+        "description": "Creates a Member record and automatically provisions a ShareAccount and DividendAccount. Requires an existing OrganizationMembership.membership_id.",
+        "operationId": "MembershipController_createMember",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMembershipDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Member registered successfully"
+          },
+          "404": {
+            "description": "OrganizationMembership not found"
+          },
+          "409": {
+            "description": "Member already exists for this membership_id"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Register a new cooperative member",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/{organization_id}": {
+      "get": {
+        "description": "Returns a paginated, fuzzy-searchable list of all members with account summaries.",
+        "operationId": "MembershipController_getAllMembers",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page for pagination",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term to filter organizations by name",
+            "schema": {
+              "example": "Acme",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Members retrieved successfully"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "List all members",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/member-number/{member_number}": {
+      "get": {
+        "operationId": "MembershipController_findByMemberNumber",
+        "parameters": [
+          {
+            "name": "member_number",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "KLIC-0001",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member retrieved"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a member by their KLIC member number (e.g. KLIC-0001)",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/{id}": {
+      "get": {
+        "operationId": "MembershipController_getMemberById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member retrieved"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Get a member by internal ID (includes recent transactions)",
+        "tags": [
+          "Members"
+        ]
+      },
+      "patch": {
+        "operationId": "MembershipController_updateMember",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMembershipDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Member updated successfully"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Update member details (category, id_number, kra_pin)",
+        "tags": [
+          "Members"
+        ]
+      },
+      "delete": {
+        "description": "Sets the member status to \"deleted\". Does not remove the record.",
+        "operationId": "MembershipController_softDeleteMember",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member deactivated successfully"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Soft-delete a member",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/{id}/status": {
+      "patch": {
+        "operationId": "MembershipController_updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMemberStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status updated successfully"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Update member status (active | inactive | suspended | deleted)",
+        "tags": [
+          "Members"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "ICMS organization service backend",
+    "description": "ICMS organization service backend API documentation",
+    "version": "1.0",
+    "contact": {
+
+    }
+  },
+  "tags": [
+    {
+      "name": "organization service",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "jwt-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateOrganizationDto": {
+        "type": "object",
+        "properties": {
+          "organization_name": {
+            "type": "string",
+            "example": "Acme Corporation",
+            "minLength": 1,
+            "maxLength": 250
+          },
+          "short_name": {
+            "type": "string",
+            "example": "Acme Corp",
+            "minLength": 1,
+            "maxLength": 10
+          },
+          "description": {
+            "type": "string",
+            "example": "Cooperation for milk collection and supply",
+            "maxLength": 250
+          },
+          "country": {
+            "type": "string",
+            "example": "Kenya",
+            "maxLength": 50
+          },
+          "website": {
+            "type": "string",
+            "example": "https://www.acme.com",
+            "maxLength": 100
+          },
+          "logo_url": {
+            "type": "string",
+            "example": "https://www.acme.com/logo.png",
+            "maxLength": 100
+          },
+          "date_founded": {
+            "type": "string",
+            "example": "2000-01-01T00:00:00.000Z"
+          },
+          "contact_person": {
+            "type": "string",
+            "example": "John Doe",
+            "maxLength": 50
+          },
+          "contact_person_phone": {
+            "type": "string",
+            "example": "+254700000000",
+            "pattern": "^\\+?[1-9]\\d{1,14}$"
+          },
+          "contact_person_email": {
+            "type": "string",
+            "example": "john.doe@acme.com",
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "organization_name",
+          "short_name"
+        ]
+      },
+      "UpdateOrganizationDto": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "CreateEconomicActivityDto": {
+        "type": "object",
+        "properties": {
+          "activity_name": {
+            "type": "string",
+            "example": "Agriculture",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "activity_name"
+        ]
+      },
+      "UpdateEconomicActivityDto": {
+        "type": "object",
+        "properties": {
+          "activity_name": {
+            "type": "string",
+            "example": "Agriculture",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "CreateTypologyDto": {
+        "type": "object",
+        "properties": {
+          "typology_name": {
+            "type": "string",
+            "example": "Cooperative",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "typology_name"
+        ]
+      },
+      "UpdateTypologyDto": {
+        "type": "object",
+        "properties": {
+          "typology_name": {
+            "type": "string",
+            "example": "Cooperative",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "CreateStructureDto": {
+        "type": "object",
+        "properties": {
+          "structure_name": {
+            "type": "string",
+            "example": "Hierarchical",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "structure_name"
+        ]
+      },
+      "UpdateStructureDto": {
+        "type": "object",
+        "properties": {
+          "structure_name": {
+            "type": "string",
+            "example": "Hierarchical",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "CreateMembershipTypeDto": {
+        "type": "object",
+        "properties": {
+          "type_name": {
+            "type": "string",
+            "example": "Regular Member",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "type_name"
+        ]
+      },
+      "UpdateMembershipTypeDto": {
+        "type": "object",
+        "properties": {
+          "type_name": {
+            "type": "string",
+            "example": "Regular Member",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "CreateDividendDeclarationDto": {
+        "type": "object",
+        "properties": {
+          "organization_id": {
+            "type": "string",
+            "example": "clorg123",
+            "description": "Organization declaring the dividend"
+          },
+          "financial_year": {
+            "type": "string",
+            "example": "2024",
+            "description": "Financial year this dividend covers"
+          },
+          "total_pool_amount": {
+            "type": "number",
+            "example": 500000,
+            "description": "Total dividend pool amount in KES"
+          },
+          "declared_by": {
+            "type": "string",
+            "example": "clprofile789",
+            "description": "Profile ID of the declaring manager"
+          },
+          "declared_at": {
+            "type": "string",
+            "example": "2024-12-01T00:00:00Z",
+            "description": "Declaration date (defaults to now)"
+          },
+          "payment_deadline": {
+            "type": "string",
+            "example": "2025-03-31T00:00:00Z",
+            "description": "Deadline for members to withdraw"
+          },
+          "notes": {
+            "type": "string",
+            "example": "FY2024 annual dividend distribution"
+          }
+        },
+        "required": [
+          "organization_id",
+          "financial_year",
+          "total_pool_amount",
+          "declared_by"
+        ]
+      },
+      "UpdateDividendDeclarationDto": {
+        "type": "object",
+        "properties": {
+          "total_pool_amount": {
+            "type": "number",
+            "example": 500000,
+            "description": "Total dividend pool amount in KES"
+          },
+          "declared_by": {
+            "type": "string",
+            "example": "clprofile789",
+            "description": "Profile ID of the declaring manager"
+          },
+          "declared_at": {
+            "type": "string",
+            "example": "2024-12-01T00:00:00Z",
+            "description": "Declaration date (defaults to now)"
+          },
+          "payment_deadline": {
+            "type": "string",
+            "example": "2025-03-31T00:00:00Z",
+            "description": "Deadline for members to withdraw"
+          },
+          "notes": {
+            "type": "string",
+            "example": "FY2024 annual dividend distribution"
+          }
+        }
+      },
+      "DistributeDividendDto": {
+        "type": "object",
+        "properties": {
+          "per_share_amount_override": {
+            "type": "number",
+            "example": 50,
+            "description": "Override per-share amount. If omitted the system computes: total_pool_amount / total active shares."
+          }
+        }
+      },
+      "WithdrawDividendDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 10000,
+            "description": "Amount to withdraw in KES"
+          },
+          "processed_by": {
+            "type": "string",
+            "example": "clprofile789",
+            "description": "Profile ID of the staff processing the withdrawal"
+          },
+          "payment_reference": {
+            "type": "string",
+            "example": "QHK1234ABC",
+            "description": "MPESA or bank transaction reference"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Member requested withdrawal at branch"
+          }
+        },
+        "required": [
+          "amount",
+          "processed_by"
+        ]
+      },
+      "ReinvestDividendDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 25000,
+            "description": "Amount to convert into shares. System calculates shares = floor(amount / par_value). Any remainder stays in the dividend account."
+          },
+          "processed_by": {
+            "type": "string",
+            "example": "clprofile789",
+            "description": "Profile ID of the staff processing this"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Member opted to reinvest Q1 dividend"
+          }
+        },
+        "required": [
+          "amount",
+          "processed_by"
+        ]
+      },
+      "CreateShareConfigDto": {
+        "type": "object",
+        "properties": {
+          "organization_id": {
+            "type": "string",
+            "example": "clorg123"
+          },
+          "par_value": {
+            "type": "number",
+            "example": 100,
+            "description": "Par value per share in KES"
+          },
+          "max_shares_per_member": {
+            "type": "number",
+            "example": 1000,
+            "description": "Maximum shares any single member may hold (null = unlimited)"
+          },
+          "min_shares_required": {
+            "type": "number",
+            "example": 1,
+            "description": "Minimum shares required to be a shareholder"
+          },
+          "allow_member_trading": {
+            "type": "boolean",
+            "example": true,
+            "description": "Allow member-to-member share transfers"
+          },
+          "approval_required": {
+            "type": "boolean",
+            "example": true,
+            "description": "Require management approval for all transactions"
+          }
+        },
+        "required": [
+          "organization_id",
+          "par_value"
+        ]
+      },
+      "BuySharesDto": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "string",
+            "example": "clmember123",
+            "description": "Member ID (cuid) purchasing the shares"
+          },
+          "number_of_shares": {
+            "type": "number",
+            "example": 10,
+            "description": "Number of shares to purchase from the cooperative"
+          },
+          "payment_reference": {
+            "type": "string",
+            "example": "QHK1234ABC",
+            "description": "MPESA or bank payment reference"
+          },
+          "notes": {
+            "type": "string",
+            "example": "New member initial purchase"
+          }
+        },
+        "required": [
+          "member_id",
+          "number_of_shares"
+        ]
+      },
+      "SellSharesDto": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "string",
+            "example": "clmember123",
+            "description": "Member ID selling shares back to the cooperative"
+          },
+          "number_of_shares": {
+            "type": "number",
+            "example": 5,
+            "description": "Number of shares to sell"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Member partial exit"
+          }
+        },
+        "required": [
+          "member_id",
+          "number_of_shares"
+        ]
+      },
+      "TransferSharesDto": {
+        "type": "object",
+        "properties": {
+          "from_member_id": {
+            "type": "string",
+            "example": "clmember123",
+            "description": "Source member ID (seller)"
+          },
+          "to_member_id": {
+            "type": "string",
+            "example": "clmember456",
+            "description": "Destination member ID (buyer)"
+          },
+          "number_of_shares": {
+            "type": "number",
+            "example": 3,
+            "description": "Number of shares to transfer"
+          },
+          "payment_reference": {
+            "type": "string",
+            "example": "QHK1234ABC"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Transfer to family member"
+          }
+        },
+        "required": [
+          "from_member_id",
+          "to_member_id",
+          "number_of_shares"
+        ]
+      },
+      "ApproveTransactionDto": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected"
+            ],
+            "example": "approved"
+          },
+          "approved_by": {
+            "type": "string",
+            "example": "clprofile789",
+            "description": "Profile ID of the approver"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Verified payment receipt"
+          }
+        },
+        "required": [
+          "decision",
+          "approved_by"
+        ]
+      },
+      "CreateExitRequestDto": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "string",
+            "example": "clmember123",
+            "description": "ID of the member requesting exit"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "voluntary",
+              "death",
+              "expulsion",
+              "incapacitation",
+              "other"
+            ],
+            "example": "voluntary"
+          },
+          "reason_details": {
+            "type": "string",
+            "example": "Relocating to another county"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Additional context for the exit committee"
+          }
+        },
+        "required": [
+          "member_id",
+          "reason"
+        ]
+      },
+      "ReviewExitRequestDto": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "under_review",
+              "approved",
+              "rejected"
+            ],
+            "example": "approved"
+          },
+          "reviewed_by": {
+            "type": "string",
+            "example": "clprofile789",
+            "description": "Profile ID of the reviewer"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Verified all conditions met for voluntary exit"
+          }
+        },
+        "required": [
+          "decision",
+          "reviewed_by"
+        ]
+      },
+      "SettleExitRequestDto": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "string",
+            "example": "MPESA ref: QHK9998ABC — settlement disbursed"
+          }
+        }
+      },
+      "CreateMembershipDto": {
+        "type": "object",
+        "properties": {
+          "organization_id": {
+            "type": "string",
+            "example": "clxyz123abc",
+            "description": "Organization ID"
+          },
+          "profile_id": {
+            "type": "string",
+            "example": "clprofile456",
+            "description": "Auth-service profile ID of the member"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "member_farmer",
+              "supplier_farmer",
+              "milk_agent",
+              "driver",
+              "employee_dairy",
+              "employee_hotel",
+              "management",
+              "associate",
+              "honorary"
+            ],
+            "example": "member_farmer",
+            "default": "member_farmer"
+          },
+          "id_number": {
+            "type": "string",
+            "example": "12345678",
+            "description": "National ID or passport number"
+          },
+          "kra_pin": {
+            "type": "string",
+            "example": "A001234567B",
+            "description": "KRA PIN"
+          }
+        },
+        "required": [
+          "organization_id",
+          "profile_id"
+        ]
+      },
+      "UpdateMembershipDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "member_farmer",
+              "supplier_farmer",
+              "milk_agent",
+              "driver",
+              "employee_dairy",
+              "employee_hotel",
+              "management",
+              "associate",
+              "honorary"
+            ],
+            "example": "member_farmer",
+            "default": "member_farmer"
+          },
+          "id_number": {
+            "type": "string",
+            "example": "12345678",
+            "description": "National ID or passport number"
+          },
+          "kra_pin": {
+            "type": "string",
+            "example": "A001234567B",
+            "description": "KRA PIN"
+          }
+        }
+      },
+      "UpdateMemberStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive",
+              "suspended",
+              "deleted"
+            ],
+            "example": "active",
+            "description": "New status for the member"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      }
+    }
+  }
+}
