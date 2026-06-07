@@ -24,29 +24,21 @@ export function ThemeCustomizer({ open, onOpenChange }: ThemeCustomizerProps) {
   const { config: sidebarConfig, updateConfig: updateSidebarConfig } = useSidebarConfig()
 
   const [activeTab, setActiveTab] = React.useState("theme")
-  const [selectedTheme, setSelectedTheme] = React.useState("default")
+  const [selectedTheme, setSelectedTheme] = React.useState("")
   const [selectedTweakcnTheme, setSelectedTweakcnTheme] = React.useState("")
   const [selectedRadius, setSelectedRadius] = React.useState("0.5rem")
   const [importModalOpen, setImportModalOpen] = React.useState(false)
   const [importedTheme, setImportedTheme] = React.useState<ImportedTheme | null>(null)
 
   const handleReset = () => {
-    // Complete reset to application defaults
-
-    // 1. Reset all state variables to initial values
-    setSelectedTheme("default")
+    setSelectedTheme("")
     setSelectedTweakcnTheme("")
     setSelectedRadius("0.5rem")
-    setImportedTheme(null) // Clear imported theme
-    setBrandColorsValues({}) // Clear brand colors state
-
-    // 2. Completely remove all custom CSS variables
+    setImportedTheme(null)
+    setBrandColorsValues({})
+    // Remove all inline overrides so globals.css brand colors take over
     resetTheme()
-
-    // 3. Reset the radius to default
     applyRadius("0.5rem")
-
-    // 4. Reset sidebar to defaults
     updateSidebarConfig({ variant: "inset", collapsible: "offcanvas", side: "left" })
   }
 

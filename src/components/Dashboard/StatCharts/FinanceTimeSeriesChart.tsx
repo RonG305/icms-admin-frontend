@@ -66,7 +66,7 @@ export function FinanceTimeSeriesChart() {
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
-                    <AreaChart data={chartData}>
+                    <AreaChart data={chartData} height={250} width={500} margin={{ top: 10, right: 30, left: -20, bottom: 0 }}>
                         <defs>
                             <linearGradient id="fill2026" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="var(--color-revenue2026)" stopOpacity={0.7} />
@@ -102,7 +102,7 @@ export function FinanceTimeSeriesChart() {
                         />
                         <Area dataKey="revenue2025" type="natural" fill="url(#fill2025)" stroke="var(--color-revenue2025)" strokeWidth={1.5} />
                         <Area dataKey="revenue2026" type="natural" fill="url(#fill2026)" stroke="var(--color-revenue2026)" strokeWidth={1.5} />
-                        <ChartLegend content={<ChartLegendContent />} />
+                        <ChartLegend content={<ChartLegendContent  payload={chartConfig} />} />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>

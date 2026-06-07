@@ -1,11 +1,7 @@
-import React from 'react'
+import Members from '@/components/Organization/Members'
 
-const page = () => {
-  return (
-    <div>
-      Organization Members
-    </div>
-  )
+type SearchParams = Record<string, string | string[] | undefined>
+
+export default function MembersPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  return <Members searchParams={searchParams} />
 }
-
-export default page

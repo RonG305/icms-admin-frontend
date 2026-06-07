@@ -18,7 +18,7 @@ export default function DashboardStats({
   const completionRate = parseFloat(stats?.payment_completion_rate ?? "0");
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4">
       <GridStatCard
         items={[
           {

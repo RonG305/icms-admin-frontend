@@ -1,32 +1,64 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
+const PUBLIC_PREFIXES = [
+  '/',
+  '/sign-in',
+  '/sign-up',
+  '/forgot-password',
+  '/landing',
+  '/errors',
+]
+
+function isPublicRoute(pathname: string): boolean {
+  if (pathname === '/') return true
+  return PUBLIC_PREFIXES.some(
+    (prefix) => prefix !== '/' && (pathname === prefix || pathname.startsWith(`${prefix}/`))
+  )
+}
+
+function isTokenExpired(token: string): boolean {
+  try {
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const payload = JSON.parse(atob(base64))
+    if (!payload.exp) return false
+    return payload.exp < Math.floor(Date.now() / 1000)
+  } catch {
+    return true
+  }
+}
+
 export function middleware(request: NextRequest) {
-  // Add custom middleware logic here
-  // For example: authentication, redirects, etc.
-  
-  // Example: Redirect /login to /auth/sign-in
-  if (request.nextUrl.pathname === '/login') {
-    return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+  const { pathname } = request.nextUrl
+
+  // Legacy redirects
+  // if (pathname === '/login') {
+  //   return NextResponse.redirect(new URL('/sign-in', request.url))
+  // }
+  if (pathname === '/register') {
+    return NextResponse.redirect(new URL('/sign-up', request.url))
   }
-  
-  // Example: Redirect /register to /auth/sign-up
-  if (request.nextUrl.pathname === '/register') {
-    return NextResponse.redirect(new URL('/auth/sign-up', request.url))
+
+  if (isPublicRoute(pathname)) {
+    return NextResponse.next()
   }
-  
+
+  const token = request.cookies.get('token')?.value
+
+  if (!token || isTokenExpired(token)) {
+    const response = NextResponse.redirect(new URL('/sign-in', request.url))
+    if (token) {
+      response.cookies.delete('token')
+    }
+    return response
+  }
+
   return NextResponse.next()
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
   matcher: [
-    // Match all request paths except for the ones starting with:
-    // - api (API routes)
-    // - _next/static (static files)
-    // - _next/image (image optimization files)
-    // - favicon.ico (favicon file)
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }

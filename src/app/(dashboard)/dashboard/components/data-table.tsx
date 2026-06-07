@@ -106,6 +106,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { Card } from "@/components/ui/card"
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
@@ -184,7 +185,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
         {row.original.status === "Done" ? (
-          <CircleCheckBig className="text-green-500 dark:text-green-400" />
+          <CircleCheckBig className="text-green-500 bg-success/10 dark:text-green-400" />
         ) : (
           <Loader />
         )}
@@ -535,8 +536,8 @@ export function DataTable({
     currentDataIds: UniqueIdentifier[], 
     handleCurrentDragEnd: (event: DragEndEvent) => void 
   }) => (
-    <>
-      <div className="overflow-hidden rounded-lg border">
+    <Card>
+      <div className="overflow-hidden bg-card rounded-lg border">
         <DndContext
           collisionDetection={closestCenter}
           modifiers={[restrictToVerticalAxis]}
@@ -544,7 +545,7 @@ export function DataTable({
           sensors={sensors}
           id={sortableId}
         >
-          <Table>
+          <Table className="">
             <TableHeader className="bg-muted sticky top-0 z-10">
               {currentTable.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -664,7 +665,7 @@ export function DataTable({
           </div>
         </div>
       </div>
-    </>
+    </Card>
   )
 
   return (

@@ -11,21 +11,21 @@ import { Suspense } from "react"
 import { CustomLoader } from "@/components/common/CustomerLoader"
 import { WaterUnitsConsumptionChart } from "@/components/Dashboard/StatCharts/WaterUnitsConsumptionChart"
 import { FinanceTimeSeriesChart } from "@/components/Dashboard/StatCharts/FinanceTimeSeriesChart"
+import { Card } from "@/components/ui/card"
 
 export default function Page() {
   return (
     <>
-      {/* Page Title and Description */}
       <div className="px-4 lg:px-6">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+        <div className="flex flex-col gap-0">
+          <h1 className="text-2xl font-semibold text-primary tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">Welcome to your admin dashboard</p>
         </div>
       </div>
 
       <DashboardStats />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Suspense fallback={<CustomLoader name="Loading Water Consumption Chart ..." />}>
           <WaterUnitsConsumptionChart />
         </Suspense>
@@ -34,18 +34,17 @@ export default function Page() {
         </Suspense>
       </div>
 
-      <div className="@container/main px-4 lg:px-6 space-y-6">
+      <div className=" ">
         <SectionCards />
-        <ChartAreaInteractive />
       </div>
-      <div className="@container/main">
+      <Card className="">
         <DataTable
           data={data}
           pastPerformanceData={pastPerformanceData}
           keyPersonnelData={keyPersonnelData}
           focusDocumentsData={focusDocumentsData}
         />
-      </div>
+      </Card>
     </>
   )
 }

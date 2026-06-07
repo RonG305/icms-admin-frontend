@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { Inter } from "next/font/google";
-
+import QueryProvider from "@/Providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Shadcn Dashboard",
@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider defaultTheme="system" storageKey="nextjs-ui-theme">
           <SidebarConfigProvider>
-            {children}
+            <QueryProvider>{children}</QueryProvider>
           </SidebarConfigProvider>
         </ThemeProvider>
       </body>
