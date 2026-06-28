@@ -75,8 +75,8 @@ export function ViewMemberDrawer({ member, open, onOpenChange }: Props) {
             </div>
           </div>
           <div className='flex items-center gap-2 mt-2 flex-wrap'>
-            <Badge variant={statusVariant(member.status)} className='capitalize'>
-              {member.status}
+            <Badge variant={statusVariant(member.membership_status)} className='capitalize'>
+              {member.membership_status}
             </Badge>
             <Badge variant='outline' className='capitalize'>
               {member.category?.replace(/_/g, ' ')}
@@ -90,7 +90,7 @@ export function ViewMemberDrawer({ member, open, onOpenChange }: Props) {
           <Section title='Member Info'>
             <Row label='Member Number' value={<span className='font-mono text-xs'>{member.member_number}</span>} />
             <Row label='Category' value={<span className='capitalize'>{member.category?.replace(/_/g, ' ')}</span>} />
-            <Row label='Status' value={<Badge variant={statusVariant(member.status)} className='capitalize'>{member.status}</Badge>} />
+            <Row label='Status' value={<Badge variant={statusVariant(member.membership_status)} className='capitalize'>{member.membership_status}</Badge>} />
             <Row label='ID Number' value={member.id_number} />
             <Row label='KRA PIN' value={member.kra_pin} />
             <Row label='Joined Date' value={formatDate(member.joined_date)} />

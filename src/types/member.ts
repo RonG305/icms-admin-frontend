@@ -70,24 +70,27 @@ export interface Member {
     id: string;
     member_number: string;
     organization_id: string;
-    profile_id: string;
+    user_id: string;
     category: string;
-    id_number: string;
-    kra_pin: string;
+    id_number?: string;
+    kra_pin?: string;
     joined_date: string;
-    status: string;
+    membership_status: string;
+    reviewed_by?: string | null;
+    reviewed_at?: string | null;
+    review_notes?: string | null;
     created_at: string;
     updated_at: string;
-    share_account: {
+    share_account?: {
         account_number: string;
         total_shares: number;
         total_value: string;
     };
-    dividend_account: {
+    dividend_account?: {
         account_number: string;
         balance: string;
     };
-    profile: {
+    profile?: {
         id: string;
         user_id: string;
         first_name: string;
@@ -113,7 +116,7 @@ export interface Member {
         verified_by?: string;
         created_at?: string;
         updated_at?: string;
-        user: {
+        user?: {
             email: string;
             status: string;
             account_type: string;

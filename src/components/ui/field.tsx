@@ -26,7 +26,7 @@ function Field({
         "data-[orientation=horizontal]:flex data-[orientation=horizontal]:items-center data-[orientation=horizontal]:justify-between data-[orientation=horizontal]:gap-4",
         "data-[orientation=vertical]:flex data-[orientation=vertical]:flex-col data-[orientation=vertical]:gap-2",
         "data-[invalid=true]:border-destructive",
-        "has-[button[data-state=checked]]:border-primary has-[button[data-state=checked]]:bg-primary/5",
+        "has-[button[data-state=checked]]:border-2 has-[button[data-state=checked]]:border-primary has-[button[data-state=checked]]:bg-primary/5",
         className
       )}
       {...props}

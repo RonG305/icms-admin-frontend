@@ -1,6 +1,6 @@
 import { BASE_URLS } from '@/api/base'
 import { makeApiRequest } from '@/api/main'
-import { ShareAccount, ShareTransaction } from '@/types/shares'
+import { ShareAccount, ShareTransaction, ShareConfig, ShareAccountSummary, ShareStatement } from '@/types/shares'
 import { buildQuery } from '@/utils/buildQuery'
 
 const getBaseUrl = () => BASE_URLS.ORGANIZATION_URL
@@ -40,6 +40,57 @@ export const getShareAccounts = async (params: ShareAccountParams = {}) => {
         total: data.meta?.total ?? data.count ?? (Array.isArray(data) ? data.length : 0),
         data: (data.data ?? (Array.isArray(data) ? data : [])) as ShareAccount[],
     }
+}
+
+export const getMemberShareAccount = async (memberId: string): Promise<ShareAccount | null> => {
+    const response = await makeApiRequest(getBaseUrl(), `/shares/accounts/${memberId}`, {
+        method: 'GET',
+        withToken: true,
+        tag: `share-account-${memberId}`,
+    })
+    if (!response?.ok) return null
+    const data = await response.json()
+    return (data.data ?? data) as ShareAccount
+}
+
+export const getMemberShareAccountSummary = async (memberId: string): Promise<ShareAccountSummary | null> => {
+    const response = await makeApiRequest(getBaseUrl(), `/shares/accounts/${memberId}/summary`, {
+        method: 'GET',
+        withToken: true,
+        tag: `share-account-summary-${memberId}`,
+    })
+    if (!response?.ok) return null
+    const data = await response.json()
+    return (data.data ?? data) as ShareAccountSummary
+}
+
+export const getMemberShareStatement = async (memberId: string, params: { page?: number; limit?: number } = {}) => {
+    const query = buildQuery({ page: params.page, limit: params.limit })
+    const response = await makeApiRequest(getBaseUrl(), `/shares/accounts/${memberId}/statement${query}`, {
+        method: 'GET',
+        withToken: true,
+        tag: `share-statement-${memberId}`,
+    })
+    if (!response?.ok) {
+        const d = await response?.json().catch(() => null)
+        return { error: d?.message || 'Failed to fetch share statement', data: [] as ShareStatement[], total: 0 }
+    }
+    const data = await response.json()
+    return {
+        total: data.meta?.total ?? data.count ?? (Array.isArray(data) ? data.length : 0),
+        data: (data.data ?? (Array.isArray(data) ? data : [])) as ShareStatement[],
+    }
+}
+
+export const getShareConfig = async (): Promise<ShareConfig | null> => {
+    const response = await makeApiRequest(getBaseUrl(), `/shares/organization/config/`, {
+        method: 'GET',
+        withToken: true,
+        tag: `share-config`,
+    })
+    if (!response?.ok) return null
+    const data = await response.json()
+    return (data.data ?? data) as ShareConfig
 }
 
 export const getPendingShareTransactions = async (orgId: string) => {

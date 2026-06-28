@@ -21,7 +21,7 @@ export const reviewExitRequest = async (
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to review exit request' }
     }
-    revalidateTag('exit-requests')
+    revalidateTag('exit-requests', 'default')
     return json
 }
 
@@ -37,7 +37,28 @@ export const settleExitRequest = async (id: string, data?: { notes?: string }) =
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to settle exit request' }
     }
-    revalidateTag('exit-requests')
+    revalidateTag('exit-requests', 'default')
+    return json
+}
+
+export const submitExitRequest = async (data: {
+    member_id: string
+    reason: string
+    reason_details?: string
+    notes?: string
+}) => {
+    const response = await makeApiRequest(getBaseUrl(), `/members/exit-requests`, {
+        method: 'POST',
+        withToken: true,
+        body: data,
+        tag: 'submit-exit-request',
+    })
+
+    const json = await response?.json().catch(() => null)
+    if (!response?.ok) {
+        return { error: json?.message || json?.error || 'Failed to submit exit request' }
+    }
+    revalidateTag('exit-requests', 'default')
     return json
 }
 
@@ -56,6 +77,6 @@ export const cancelExitRequest = async (id: string, memberId: string) => {
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to cancel exit request' }
     }
-    revalidateTag('exit-requests')
+    revalidateTag('exit-requests', 'default')
     return json
 }

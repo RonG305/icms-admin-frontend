@@ -19,10 +19,6 @@ import {
 } from "@/components/ui/chart"
 
 export const description = "Monthly water consumption chart"
-
-// supplied = total water pumped into the network
-// billed   = metered consumption invoiced to residential customers
-// The gap is Non-Revenue Water (NRW) — leaks, unbilled usage, meter errors
 const chartData = [
     { month: "January", supplied: 1520, billed: 1240 },
     { month: "February", supplied: 1440, billed: 1185 },

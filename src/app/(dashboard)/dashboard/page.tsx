@@ -18,7 +18,7 @@ export default function Page() {
     <>
       <div className="px-4 lg:px-6">
         <div className="flex flex-col gap-0">
-          <h1 className="text-2xl font-semibold text-primary tracking-tight">Dashboard</h1>
+          <h1 className="text-3xl font-bold  tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">Welcome to your admin dashboard</p>
         </div>
       </div>

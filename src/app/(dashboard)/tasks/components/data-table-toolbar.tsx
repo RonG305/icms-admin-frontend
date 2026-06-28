@@ -124,20 +124,24 @@ export function DataTableToolbar<TData>({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all" className="cursor-pointer">All Priorities</SelectItem>
-              {priorities.map((priority) => (
-                <SelectItem
-                  key={priority.value}
-                  value={priority.value}
-                  className="cursor-pointer"
-                >
-                  <div className="flex items-center">
-                    {priority.icon && (
-                      <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-                    )}
-                    {priority.label}
-                  </div>
-                </SelectItem>
-              ))}
+              {priorities.map((priority) => {
+                const PriorityIcon = (priority as { icon?: React.ComponentType<{ className?: string }> }).icon
+
+                return (
+                  <SelectItem
+                    key={priority.value}
+                    value={priority.value}
+                    className="cursor-pointer"
+                  >
+                    <div className="flex items-center">
+                      {PriorityIcon && (
+                        <PriorityIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                      )}
+                      {priority.label}
+                    </div>
+                  </SelectItem>
+                )
+              })}
             </SelectContent>
           </Select>
         </div>

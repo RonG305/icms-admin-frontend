@@ -14,9 +14,13 @@ import { ViewMemberDrawer } from './ViewMemberDrawer'
 import { UpdateMemberDialog } from './UpdateMemberDialog'
 import { UpdateMemberStatusDialog } from './UpdateMemberStatusDialog'
 import { DeleteMemberDialog } from './DeleteMemberDialog'
+import { ReviewMembershipDialog } from './ReviewMembershipDialog'
+import { CreateMemberDialog } from './CreateMemberDialog'
 import { Member } from '@/types/member'
 import { Icon } from '@iconify/react'
+import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/format'
+import Link from 'next/link'
 
 function getInitials(first?: string, last?: string) {
   return [first?.[0], last?.[0]].filter(Boolean).join('').toUpperCase() || '?'
@@ -28,6 +32,8 @@ const statusVariant = (s: string) => {
   return 'warning' as const
 }
 
+type ReviewAction = 'approve' | 'reject' | 'cancel'
+
 interface Props {
   data: Member[]
   total: number
@@ -36,15 +42,19 @@ interface Props {
 
 const MembersList = ({ data, total, organizationId }: Props) => {
   const router = useRouter()
+  const [createOpen, setCreateOpen] = useState(false)
   const [viewTarget, setViewTarget] = useState<Member | null>(null)
   const [updateTarget, setUpdateTarget] = useState<Member | null>(null)
   const [statusTarget, setStatusTarget] = useState<Member | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<Member | null>(null)
+  const [reviewTarget, setReviewTarget] = useState<{ member: Member; action: ReviewAction } | null>(null)
 
   const onSuccess = () => {
+    setCreateOpen(false)
     setUpdateTarget(null)
     setStatusTarget(null)
     setDeleteTarget(null)
+    setReviewTarget(null)
     router.refresh()
   }
 
@@ -93,10 +103,10 @@ const MembersList = ({ data, total, organizationId }: Props) => {
       ),
     },
     {
-      accessorKey: 'status',
+      accessorKey: 'membership_status',
       header: 'Status',
       cell: ({ row }) => {
-        const s = row.getValue('status') as string
+        const s = row.getValue('membership_status') as string
         return (
           <Badge variant={statusVariant(s)} className='capitalize text-xs'>
             {s}
@@ -135,6 +145,12 @@ const MembersList = ({ data, total, organizationId }: Props) => {
               <Icon icon='solar:eye-linear' fontSize={16} />
               <span>View</span>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/organization/members/${m.id}`}>
+                <Icon icon='solar:user-id-linear' fontSize={16} />
+                <span>View Profile</span>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setUpdateTarget(m)}>
               <Icon icon='solar:pen-2-linear' fontSize={16} />
               <span>Edit</span>
@@ -143,7 +159,37 @@ const MembersList = ({ data, total, organizationId }: Props) => {
               <Icon icon='solar:shield-check-linear' fontSize={16} />
               <span>Update Status</span>
             </DropdownMenuItem>
+            {m.membership_status === 'pending_approval' && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => setReviewTarget({ member: m, action: 'approve' })}>
+                  <Icon icon='solar:check-circle-linear' fontSize={16} />
+                  <span>Approve</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem variant='destructive' onClick={() => setReviewTarget({ member: m, action: 'reject' })}>
+                  <Icon icon='solar:close-circle-linear' fontSize={16} />
+                  <span>Reject</span>
+                </DropdownMenuItem>
+              </>
+            )}
             <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href={`/organization/members/${m.id}/shares`}>
+                <Icon icon='solar:chart-square-linear' fontSize={16} />
+                <span>Share Account</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/organization/members/${m.id}/dividends`}>
+                <Icon icon='solar:money-bag-linear' fontSize={16} />
+                <span>Dividend Account</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem variant='destructive' onClick={() => setReviewTarget({ member: m, action: 'cancel' })}>
+              <Icon icon='solar:forbidden-circle-linear' fontSize={16} />
+              <span>Cancel Membership</span>
+            </DropdownMenuItem>
             <DropdownMenuItem variant='destructive' onClick={() => setDeleteTarget(m)}>
               <Icon icon='solar:trash-bin-trash-linear' fontSize={16} />
               <span>Delete</span>
@@ -159,7 +205,15 @@ const MembersList = ({ data, total, organizationId }: Props) => {
       <DataTable<Member>
         columns={columns}
         data={data}
-        toolbar={<MemberFilters />}
+        toolbar={
+          <div className='flex items-center gap-2'>
+            <MemberFilters />
+            <Button size='sm' onClick={() => setCreateOpen(true)}>
+              <Icon icon='solar:add-circle-linear' fontSize={16} />
+              Add Member
+            </Button>
+          </div>
+        }
         emptyMessage='No members found.'
         paginationComponent={<TablePagination total={total} />}
       />
@@ -198,6 +252,23 @@ const MembersList = ({ data, total, organizationId }: Props) => {
           onSuccess={onSuccess}
         />
       )}
+
+      {reviewTarget && (
+        <ReviewMembershipDialog
+          member={reviewTarget.member}
+          action={reviewTarget.action}
+          open={!!reviewTarget}
+          onOpenChange={(o) => !o && setReviewTarget(null)}
+          onSuccess={onSuccess}
+        />
+      )}
+
+      <CreateMemberDialog
+        organizationId={organizationId}
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onSuccess={onSuccess}
+      />
     </>
   )
 }

@@ -8,10 +8,12 @@ import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdow
 import { DataTable } from '@/components/common/data-table'
 import { TablePagination } from '@/components/common/TablePagination'
 import { ActionDropdown } from '@/components/common/ActionDropdown'
+import { Button } from '@/components/ui/button'
 import { ExitRequestFilters } from './ExitRequestFilters'
 import { ViewExitRequestDrawer } from './ViewExitRequestDrawer'
 import { ReviewExitRequestDialog } from './ReviewExitRequestDialog'
 import { SettleExitRequestDialog } from './SettleExitRequestDialog'
+import { CreateExitRequestDialog } from './CreateExitRequestDialog'
 import { ExitRequest } from '@/types/member'
 import { Icon } from '@iconify/react'
 import { formatDate, formatCurrency } from '@/lib/format'
@@ -35,11 +37,13 @@ interface Props {
 
 const ExitRequestsList = ({ data, total, reviewedBy }: Props) => {
   const router = useRouter()
+  const [createOpen, setCreateOpen] = useState(false)
   const [viewTarget, setViewTarget] = useState<ExitRequest | null>(null)
   const [reviewTarget, setReviewTarget] = useState<ExitRequest | null>(null)
   const [settleTarget, setSettleTarget] = useState<ExitRequest | null>(null)
 
   const onSuccess = () => {
+    setCreateOpen(false)
     setReviewTarget(null)
     setSettleTarget(null)
     router.refresh()
@@ -145,14 +149,30 @@ const ExitRequestsList = ({ data, total, reviewedBy }: Props) => {
     },
   ]
 
+  const toolbar = (
+    <div className='flex items-center gap-2'>
+      <ExitRequestFilters />
+      <Button size='sm' onClick={() => setCreateOpen(true)}>
+        <Icon icon='solar:add-circle-linear' fontSize={16} />
+        Submit Request
+      </Button>
+    </div>
+  )
+
   return (
     <>
       <DataTable<ExitRequest>
         columns={columns}
         data={data}
-        toolbar={<ExitRequestFilters />}
+        toolbar={toolbar}
         emptyMessage='No exit requests found.'
         paginationComponent={<TablePagination total={total} />}
+      />
+
+      <CreateExitRequestDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onSuccess={onSuccess}
       />
 
       {viewTarget && (

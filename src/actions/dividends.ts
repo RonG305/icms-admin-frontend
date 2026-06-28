@@ -25,7 +25,7 @@ export const createDividendDeclaration = async (data: {
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to create dividend declaration' }
     }
-    revalidateTag('dividend-declarations')
+    revalidateTag('dividend-declarations', 'default')
     return json
 }
 
@@ -48,7 +48,7 @@ export const updateDividendDeclaration = async (
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to update dividend declaration' }
     }
-    revalidateTag('dividend-declarations')
+    revalidateTag('dividend-declarations', 'default')
     return json
 }
 
@@ -67,6 +67,47 @@ export const distributeDividend = async (
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to distribute dividend' }
     }
-    revalidateTag('dividend-declarations')
+    revalidateTag('dividend-declarations', 'default')
+    return json
+}
+
+export const withdrawDividend = async (
+    memberId: string,
+    data: { amount: string | number; processed_by?: string; payment_reference?: string; notes?: string }
+) => {
+    const response = await makeApiRequest(getBaseUrl(), `/dividends/accounts/${memberId}/withdraw`, {
+        method: 'POST',
+        withToken: true,
+        body: data,
+        tag: 'withdraw-dividend',
+    })
+
+    const json = await response?.json().catch(() => null)
+    if (!response?.ok) {
+        return { error: json?.message || json?.error || 'Failed to withdraw dividend' }
+    }
+    revalidateTag(`dividend-account-${memberId}`, 'default')
+    revalidateTag(`dividend-statement-${memberId}`, 'default')
+    return json
+}
+
+export const reinvestDividend = async (
+    memberId: string,
+    data: { amount: string | number; processed_by?: string; notes?: string }
+) => {
+    const response = await makeApiRequest(getBaseUrl(), `/dividends/accounts/${memberId}/reinvest`, {
+        method: 'POST',
+        withToken: true,
+        body: data,
+        tag: 'reinvest-dividend',
+    })
+
+    const json = await response?.json().catch(() => null)
+    if (!response?.ok) {
+        return { error: json?.message || json?.error || 'Failed to reinvest dividend' }
+    }
+    revalidateTag(`dividend-account-${memberId}`, 'default')
+    revalidateTag(`dividend-statement-${memberId}`, 'default')
+    revalidateTag('share-accounts', 'default')
     return json
 }

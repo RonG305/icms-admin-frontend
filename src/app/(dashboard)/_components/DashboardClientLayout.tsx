@@ -3,18 +3,19 @@
 import React from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { ThemeCustomizer, ThemeCustomizerTrigger } from "@/components/theme-customizer"
 import { useSidebarConfig } from "@/hooks/use-sidebar-config"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export function DashboardClientLayout({ children }: { children: React.ReactNode }) {
   const [themeCustomizerOpen, setThemeCustomizerOpen] = React.useState(false)
   const { config } = useSidebarConfig()
+  const isMobile = useIsMobile()
 
   const sidebarWidthMap: Record<string, string> = {
     compact: "13rem",
-    comfortable: "16rem",
+    comfortable: "300px",
     spacious: "20rem",
   }
 
@@ -24,10 +25,14 @@ export function DashboardClientLayout({ children }: { children: React.ReactNode 
     fixed: "max-w-5xl mx-auto w-full",
   }
 
+  // On mobile the sidebar must always be offcanvas so the Sheet overlay works.
+  // collapsible="none" bypasses the isMobile Sheet check inside Sidebar.
+  const effectiveCollapsible = isMobile ? "offcanvas" : config.collapsible
+
   return (
     <SidebarProvider
       style={{
-        "--sidebar-width": sidebarWidthMap[config.sidebarWidth] ?? "16rem",
+        "--sidebar-width": sidebarWidthMap[config.sidebarWidth] ?? "300px",
         "--sidebar-width-icon": "3rem",
         "--header-height": "calc(var(--spacing) * 14)",
       } as React.CSSProperties}
@@ -37,7 +42,7 @@ export function DashboardClientLayout({ children }: { children: React.ReactNode 
         <>
           <AppSidebar
             variant={config.variant}
-            collapsible={config.collapsible}
+            collapsible={effectiveCollapsible}
             side={config.side}
           />
           <SidebarInset>
@@ -49,7 +54,6 @@ export function DashboardClientLayout({ children }: { children: React.ReactNode 
                 </div>
               </div>
             </div>
-            <SiteFooter />
           </SidebarInset>
         </>
       ) : (
@@ -63,11 +67,10 @@ export function DashboardClientLayout({ children }: { children: React.ReactNode 
                 </div>
               </div>
             </div>
-            <SiteFooter />
           </SidebarInset>
           <AppSidebar
             variant={config.variant}
-            collapsible={config.collapsible}
+            collapsible={effectiveCollapsible}
             side={config.side}
           />
         </>

@@ -3,11 +3,8 @@ import type { NextRequest } from 'next/server'
 
 const PUBLIC_PREFIXES = [
   '/',
-  '/sign-in',
-  '/sign-up',
-  '/forgot-password',
+  '/auth',
   '/landing',
-  '/errors',
 ]
 
 function isPublicRoute(pathname: string): boolean {
@@ -32,12 +29,11 @@ function isTokenExpired(token: string): boolean {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Legacy redirects
-  // if (pathname === '/login') {
-  //   return NextResponse.redirect(new URL('/sign-in', request.url))
-  // }
+  if (pathname === '/login') {
+    return NextResponse.redirect(new URL('/auth/login', request.url))
+  }
   if (pathname === '/register') {
-    return NextResponse.redirect(new URL('/sign-up', request.url))
+    return NextResponse.redirect(new URL('/auth/signup', request.url))
   }
 
   if (isPublicRoute(pathname)) {
@@ -47,7 +43,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value
 
   if (!token || isTokenExpired(token)) {
-    const response = NextResponse.redirect(new URL('/sign-in', request.url))
+    const response = NextResponse.redirect(new URL('/auth/login', request.url))
     if (token) {
       response.cookies.delete('token')
     }

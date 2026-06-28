@@ -12,6 +12,20 @@ type MemberListParams = {
     search?: string
 }
 
+export const getMemberById = async (id: string) => {
+    if (!getBaseUrl()) return null
+
+    const response = await makeApiRequest(getBaseUrl(), `/members/${id}`, {
+        method: 'GET',
+        withToken: true,
+        tag: `member-${id}`,
+    })
+
+    if (!response?.ok) return null
+    const data = await response.json()
+    return (data.data ?? data) as Member
+}
+
 export const getMembers = async (
     orgId: string | undefined,
     params: MemberListParams = {}

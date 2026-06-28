@@ -102,7 +102,7 @@ export function FinanceTimeSeriesChart() {
                         />
                         <Area dataKey="revenue2025" type="natural" fill="url(#fill2025)" stroke="var(--color-revenue2025)" strokeWidth={1.5} />
                         <Area dataKey="revenue2026" type="natural" fill="url(#fill2026)" stroke="var(--color-revenue2026)" strokeWidth={1.5} />
-                        <ChartLegend content={<ChartLegendContent  payload={chartConfig} />} />
+                        <ChartLegend content={<ChartLegendContent />} />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>

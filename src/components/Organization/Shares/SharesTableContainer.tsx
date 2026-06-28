@@ -1,10 +1,11 @@
 import { cookies } from 'next/headers'
-import { getShareAccounts, getPendingShareTransactions } from '@/data/organization/shares'
+import { getShareAccounts, getPendingShareTransactions, getShareConfig } from '@/data/organization/shares'
 import { decodeToken } from '@/lib/decode-token'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import ShareAccountsList from './ShareAccountsList'
 import PendingTransactionsList from './PendingTransactionsList'
+import { ShareConfigCard } from './ShareConfigCard'
 
 type SearchParams = Record<string, string | string[] | undefined>
 
@@ -23,7 +24,7 @@ const SharesTableContainer = async ({
   const orgId = decoded?.organization_id as string | undefined
   const approvedBy = decoded?.sub ?? decoded?.user_id ?? ''
 
-  const [accountsResult, pendingResult] = await Promise.all([
+  const [accountsResult, pendingResult, shareConfig] = await Promise.all([
     getShareAccounts({
       page,
       limit: pageSize,
@@ -31,34 +32,41 @@ const SharesTableContainer = async ({
       search: search || undefined,
     }),
     getPendingShareTransactions(orgId ?? ''),
+    getShareConfig(),
   ])
 
+  console.log("Share config : ", shareConfig)
+
   return (
-    <Tabs defaultValue='accounts' className='w-full'>
-      <TabsList className='mb-4'>
-        <TabsTrigger value='accounts'>Share Accounts</TabsTrigger>
-        <TabsTrigger value='pending'>
-          Pending Transactions
-          {pendingResult.data.length > 0 && (
-            <span className='ml-2 rounded-full bg-warning/10 text-warning-foreground text-xs px-1.5 py-0.5 font-medium'>
-              {pendingResult.data.length}
-            </span>
-          )}
-        </TabsTrigger>
-      </TabsList>
+    <div className='flex flex-col gap-6'>
+      <ShareConfigCard config={shareConfig} organizationId={orgId ?? ''} />
 
-      <TabsContent value='accounts'>
-        <Card>
-          <ShareAccountsList data={accountsResult.data} total={accountsResult.total} />
-        </Card>
-      </TabsContent>
+      <Tabs defaultValue='accounts' className='w-full'>
+        <TabsList className='mb-4'>
+          <TabsTrigger value='accounts'>Share Accounts</TabsTrigger>
+          <TabsTrigger value='pending'>
+            Pending Transactions
+            {pendingResult.data.length > 0 && (
+              <span className='ml-2 rounded-full bg-warning/10 text-warning-foreground text-xs px-1.5 py-0.5 font-medium'>
+                {pendingResult.data.length}
+              </span>
+            )}
+          </TabsTrigger>
+        </TabsList>
 
-      <TabsContent value='pending'>
-        <Card>
-          <PendingTransactionsList data={pendingResult.data} approvedBy={approvedBy} />
-        </Card>
-      </TabsContent>
-    </Tabs>
+        <TabsContent value='accounts'>
+          <Card>
+            <ShareAccountsList data={accountsResult.data} total={accountsResult.total} />
+          </Card>
+        </TabsContent>
+
+        <TabsContent value='pending'>
+          <Card>
+            <PendingTransactionsList data={pendingResult.data} approvedBy={approvedBy} />
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }
 

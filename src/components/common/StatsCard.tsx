@@ -40,8 +40,7 @@ const StatsCard = ({
                         <TrendingDown className="h-3.5 w-3.5 text-destructive shrink-0" />
                     )}
                     <span
-                        className={`text-xs font-bold ${isPositive ? "text-success" : "text-destructive"
-                            }`}
+                        className={`text-xs font-bold ${isPositive ? "text-success" : "text-destructive"}`}
                     >
                         {Math.abs(trend)}%
                     </span>

@@ -21,8 +21,10 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  Columns2,
+  Download,
+  EyeOff,
   Search,
+  Settings2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -52,31 +54,37 @@ import {
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, unknown>[]
   data: TData[]
+  title?: string
   searchColumn?: string
   searchPlaceholder?: string
+  filters?: React.ReactNode
   toolbar?: React.ReactNode
   emptyMessage?: string
   defaultPageSize?: number
   showSelectionCount?: boolean
-  /** When provided, disables internal pagination and renders this instead */
+  onExport?: () => void
   paginationComponent?: React.ReactNode
 }
 
 export function DataTable<TData>({
   columns,
   data,
+  title,
   searchColumn,
   searchPlaceholder = "Search...",
+  filters,
   toolbar,
   emptyMessage = "No results.",
   defaultPageSize = 10,
   showSelectionCount = true,
+  onExport,
   paginationComponent,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [searchOpen, setSearchOpen] = React.useState(false)
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: defaultPageSize,
@@ -105,36 +113,74 @@ export function DataTable<TData>({
     .getAllColumns()
     .filter((col) => typeof col.accessorFn !== "undefined" && col.getCanHide())
 
+  const totalRows = table.getFilteredRowModel().rows.length
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* ── Toolbar ── */}
+    <div className="flex flex-col gap-4 p-4 md:p-5">
+      {filters && (
+        <div className="flex flex-wrap items-center gap-2">
+          {filters}
+        </div>
+      )}
+
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          {searchColumn && (
-            <div className="relative w-full max-w-xs">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-              <Input
-                placeholder={searchPlaceholder}
-                value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""}
-                onChange={(e) =>
-                  table.getColumn(searchColumn)?.setFilterValue(e.target.value)
-                }
-                className="pl-9 h-9"
-              />
-            </div>
+        <div className="flex items-center gap-2.5 min-w-0">
+          {title ? (
+            <>
+              <h3 className="text-base font-semibold whitespace-nowrap">{title}</h3>
+              <span className="inline-flex items-center justify-center rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground min-w-[1.5rem]">
+                {totalRows}
+              </span>
+            </>
+          ) : (
+            searchColumn && !searchOpen && (
+              <div className="relative w-full max-w-xs">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+                <Input
+                  placeholder={searchPlaceholder}
+                  value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""}
+                  onChange={(e) => table.getColumn(searchColumn)?.setFilterValue(e.target.value)}
+                  className="pl-9 h-9"
+                />
+              </div>
+            )
           )}
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
+          {title && searchColumn && (
+            searchOpen ? (
+              <div className="flex items-center gap-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+                  <Input
+                    autoFocus
+                    placeholder={searchPlaceholder}
+                    value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""}
+                    onChange={(e) => table.getColumn(searchColumn)?.setFilterValue(e.target.value)}
+                    className="pl-9 h-8 w-48"
+                  />
+                </div>
+                <Button variant="ghost" size="sm" className="h-8 px-2 text-xs" onClick={() => { setSearchOpen(false); table.getColumn(searchColumn)?.setFilterValue("") }}>
+                  ✕
+                </Button>
+              </div>
+            ) : (
+              <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs cursor-pointer" onClick={() => setSearchOpen(true)}>
+                <Search className="size-3.5" />
+                Search
+              </Button>
+            )
+          )}
+
           {toolbar}
 
           {hideableColumns.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="cursor-pointer">
-                  <Columns2 className="size-4" />
-                  <span className="hidden lg:inline">Columns</span>
-                  <ChevronDown className="size-4" />
+                <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs cursor-pointer">
+                  <EyeOff className="size-3.5" />
+                  <span className="hidden sm:inline">Hide</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
@@ -151,17 +197,57 @@ export function DataTable<TData>({
               </DropdownMenuContent>
             </DropdownMenu>
           )}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs cursor-pointer">
+                <Settings2 className="size-3.5" />
+                <span className="hidden sm:inline">Customize</span>
+                <span className="hidden sm:inline text-muted-foreground">···</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuCheckboxItem checked>Compact rows</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked>Show borders</DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {onExport ? (
+            <Button size="sm" className="h-8 gap-1.5 text-xs cursor-pointer" onClick={onExport}>
+              <Download className="size-3.5" />
+              Export
+              <ChevronDown className="size-3.5 ml-0.5" />
+            </Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs cursor-pointer">
+                  <Download className="size-3.5" />
+                  <span className="hidden sm:inline">Export</span>
+                  <ChevronDown className="size-3.5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-36">
+                <DropdownMenuCheckboxItem>CSV</DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem>Excel</DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem>PDF</DropdownMenuCheckboxItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
 
-      {/* ── Table ── */}
-      <div className="overflow-hidden rounded-lg border bg-card">
+      <div className="overflow-hidden rounded-lg border border-border/60 bg-card">
         <Table>
-          <TableHeader className="bg-muted sticky top-0 z-10">
+          <TableHeader className="bg-muted/60 sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="border-b border-border/60">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
+                  <TableHead
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="uppercase text-[11px] tracking-wider font-semibold text-muted-foreground"
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -176,9 +262,10 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() ? "selected" : undefined}
+                  className="hover:bg-muted/40 transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="text-sm py-3">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -198,7 +285,6 @@ export function DataTable<TData>({
         </Table>
       </div>
 
-      {/* ── Pagination ── */}
       {paginationComponent ? (
         <div>{paginationComponent}</div>
       ) : (

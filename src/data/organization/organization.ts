@@ -27,7 +27,6 @@ export const getOrganizations = async (params?: OrganizationListParams) => {
         tag: 'organizations-list',
     })
 
-    console.log("Fetch organizations response: ", response)
 
     if (!response?.ok) {
         const data = await response?.json().catch(() => null)

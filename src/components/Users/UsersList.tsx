@@ -64,7 +64,7 @@ const UsersList = ({ data, total }: Props) => {
       accessorKey: "phone_number",
       header: "Phone",
       cell: ({ row }) => (
-        <span className="">{row.original.phone_number || "—"}</span>
+        <span className="font-medium">{row.original.phone_number || "—"}</span>
       ),
     },
     {

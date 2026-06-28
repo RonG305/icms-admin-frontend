@@ -14,7 +14,7 @@ const Members = async ({ searchParams }: { searchParams: Promise<SearchParams> }
   const result = await getMembers(orgId, { limit: 100 })
   const stats = {
     total_members: result.total,
-    total_active_members: result.data.filter((m) => m.status === 'active').length,
+    total_active_members: result.data.filter((m) => m.membership_status === 'active').length,
     total_sacco_members: result.data.filter((m) => m.category === 'member_farmer').length,
     total_shares: result.data.reduce((sum, m) => sum + (m.share_account?.total_shares ?? 0), 0),
   }

@@ -57,7 +57,7 @@ export function UpdateMemberStatusDialog({ member, open, onOpenChange, onSuccess
   const form = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
-      status: (member.status as FormFields['status']) ?? 'active',
+      status: (member.membership_status as FormFields['status']) ?? 'active',
     },
   })
 
@@ -89,8 +89,8 @@ export function UpdateMemberStatusDialog({ member, open, onOpenChange, onSuccess
 
         <div className='flex items-center gap-2 text-sm text-muted-foreground'>
           <span>{memberName}</span>
-          <Badge variant={statusVariant(member.status)} className='capitalize'>
-            {member.status}
+          <Badge variant={statusVariant(member.membership_status)} className='capitalize'>
+            {member.membership_status}
           </Badge>
         </div>
 

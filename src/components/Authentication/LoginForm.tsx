@@ -106,7 +106,7 @@ export const LoginFormContainer = ({
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center p-4 md:p-8 bg-neutral-100">
+    <div className="relative min-h-screen flex items-center justify-center p-2 md:p-8 bg-neutral-100">
       <div className="fixed inset-0  scale-110 blur-xs ">
         <RigLines bg="#e0e0e0" maxSize={180} count={10} />
       </div>
@@ -114,7 +114,7 @@ export const LoginFormContainer = ({
       <Card className="relative z-10 w-full max-w-3xl shadow-2xl overflow-hidden">
         <CardContent className="p-0 flex min-h-120">
 
-          <div className="flex-1 flex flex-col p-8 md:p-10 overflow-y-auto">
+          <div className="flex-1 flex flex-col p-1 md:p-10 overflow-y-auto">
             <div className="flex items-center gap-2 mb-8">
               <img
                 src="/icms-logo.jpg"
@@ -122,7 +122,7 @@ export const LoginFormContainer = ({
                 className="h-12 w-12 object-cover rounded-lg"
                 loading="lazy"
               />
-              <span className="font-medium md:text-2xl text-secondary">
+              <span className="font-medium text-2xl text-secondary">
                 Cooperative
               </span>
             </div>

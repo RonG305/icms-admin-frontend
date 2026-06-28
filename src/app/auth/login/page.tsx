@@ -1,4 +1,4 @@
-import { LoginFormContainer } from '@/components/Authentication/LoginForm'
+import { LoginFormContainer } from '@/components/Auth2/LoginForm'
 import { getOrganizations } from '@/data/organization/organization'
 
 export default async function LoginPage() {

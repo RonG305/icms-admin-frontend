@@ -1,5 +1,4 @@
 import { getUsers } from "@/data/user-management/auth-users"
-import { Card } from "@/components/ui/card"
 import UsersList from "./UsersList"
 
 type SearchParams = Record<string, string | string[] | undefined>
@@ -13,9 +12,9 @@ const UsersTableContainer = async ({ searchParams }: { searchParams: Promise<Sea
   const result = await getUsers({ page, limit: pageSize, search })
 
   return (
-    <Card>
+    <div>
       <UsersList data={result.data} total={result.count} />
-    </Card>
+    </div>
   )
 }
 

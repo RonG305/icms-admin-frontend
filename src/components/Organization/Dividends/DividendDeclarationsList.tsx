@@ -30,6 +30,7 @@ interface Props {
 }
 
 const DividendDeclarationsList = ({ data, total, organizationId, declaredBy }: Props) => {
+  console.log("Dividend declaration: ", data)
   const router = useRouter()
   const [createOpen, setCreateOpen] = useState(false)
   const [updateTarget, setUpdateTarget] = useState<DividendDeclaration | null>(null)
@@ -43,6 +44,14 @@ const DividendDeclarationsList = ({ data, total, organizationId, declaredBy }: P
   }
 
   const columns: ColumnDef<DividendDeclaration>[] = [
+    {
+  accessorKey: 'declaration_reference',
+      header: 'Declaration Ref',
+      cell: ({ row }) => (
+        <span className='text-sm font-medium'>{row.getValue('declaration_reference')}</span>
+      ),
+    },
+    
     {
       accessorKey: 'financial_year',
       header: 'Financial Year',

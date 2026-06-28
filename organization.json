@@ -1223,19 +1223,10 @@
         ]
       }
     },
-    "/api/v1/organization/shares/config/{organization_id}": {
+    "/api/v1/organization/shares/organization/config": {
       "get": {
         "operationId": "SharesController_getConfig",
-        "parameters": [
-          {
-            "name": "organization_id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "404": {
             "description": "Not found"
@@ -1250,19 +1241,12 @@
         "tags": [
           "Shares"
         ]
-      },
+      }
+    },
+    "/api/v1/organization/shares/organization/config/update": {
       "patch": {
         "operationId": "SharesController_updateConfig",
-        "parameters": [
-          {
-            "name": "organization_id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -2133,7 +2117,6 @@
         ]
       },
       "delete": {
-        "description": "Sets the member status to \"deleted\". Does not remove the record.",
         "operationId": "MembershipController_softDeleteMember",
         "parameters": [
           {
@@ -2148,7 +2131,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Member deactivated successfully"
+            "description": "Member cancelled successfully"
           },
           "404": {
             "description": "Member not found"
@@ -2159,7 +2142,7 @@
             "jwt-auth": []
           }
         ],
-        "summary": "Soft-delete a member",
+        "summary": "Cancel a member (soft delete)",
         "tags": [
           "Members"
         ]
@@ -2203,6 +2186,144 @@
           }
         ],
         "summary": "Update member status (active | inactive | suspended | deleted)",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/{id}/approve": {
+      "patch": {
+        "operationId": "MembershipController_approveMembership",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewMembershipDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Membership approved"
+          },
+          "400": {
+            "description": "Already active or already rejected/cancelled"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Approve a pending membership application",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/{id}/reject": {
+      "patch": {
+        "operationId": "MembershipController_rejectMembership",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewMembershipDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Membership rejected"
+          },
+          "400": {
+            "description": "Cannot reject in current status"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Reject a pending membership application",
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/v1/organization/members/{id}/cancel": {
+      "patch": {
+        "operationId": "MembershipController_cancelMembership",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member cuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewMembershipDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Membership cancelled"
+          },
+          "400": {
+            "description": "Already cancelled"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "jwt-auth": []
+          }
+        ],
+        "summary": "Cancel/drop a membership",
         "tags": [
           "Members"
         ]
@@ -2537,10 +2658,6 @@
       "CreateShareConfigDto": {
         "type": "object",
         "properties": {
-          "organization_id": {
-            "type": "string",
-            "example": "clorg123"
-          },
           "par_value": {
             "type": "number",
             "example": 100,
@@ -2568,7 +2685,6 @@
           }
         },
         "required": [
-          "organization_id",
           "par_value"
         ]
       },
@@ -2759,10 +2875,10 @@
             "example": "clxyz123abc",
             "description": "Organization ID"
           },
-          "profile_id": {
+          "user_id": {
             "type": "string",
-            "example": "clprofile456",
-            "description": "Auth-service profile ID of the member"
+            "example": "cluser123abc",
+            "description": "User ID from auth service"
           },
           "category": {
             "type": "string",
@@ -2793,7 +2909,7 @@
         },
         "required": [
           "organization_id",
-          "profile_id"
+          "user_id"
         ]
       },
       "UpdateMembershipDto": {
@@ -2830,21 +2946,33 @@
       "UpdateMemberStatusDto": {
         "type": "object",
         "properties": {
-          "status": {
+          "membership_status": {
             "type": "string",
             "enum": [
+              "pending_approval",
+              "approved",
               "active",
-              "inactive",
               "suspended",
-              "deleted"
+              "rejected",
+              "cancelled"
             ],
             "example": "active",
-            "description": "New status for the member"
+            "description": "New membership status"
           }
         },
         "required": [
-          "status"
+          "membership_status"
         ]
+      },
+      "ReviewMembershipDto": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "string",
+            "example": "All documents verified",
+            "description": "Optional notes for this action"
+          }
+        }
       }
     }
   }

@@ -34,6 +34,7 @@ export async function makeApiRequest(
 
   attachBody(options, headers, body)
   console.log(`Making API Request to *****${base_url}${url} *****`)
+  console.log("With Body: ", body)
 
   try {
     const response = await fetch(`${base_url}${url}`, options)

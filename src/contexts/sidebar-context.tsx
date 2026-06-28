@@ -33,7 +33,12 @@ export function SidebarConfigProvider({ children }: { children: React.ReactNode 
   React.useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
-      if (stored) setConfig({ ...defaultConfig, ...JSON.parse(stored) })
+      if (stored) {
+        const parsed: Partial<SidebarConfig> = JSON.parse(stored)
+        // collapsible:"none" breaks mobile Sheet — always fall back to offcanvas
+        if (parsed.collapsible === "none") parsed.collapsible = "offcanvas"
+        setConfig({ ...defaultConfig, ...parsed })
+      }
     } catch {}
   }, [])
 

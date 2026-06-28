@@ -23,8 +23,8 @@ export const buyShares = async (data: {
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to buy shares' }
     }
-    revalidateTag('share-accounts')
-    revalidateTag('pending-share-transactions')
+    revalidateTag('share-accounts', 'default')
+    revalidateTag('pending-share-transactions', 'default')
     return json
 }
 
@@ -44,8 +44,8 @@ export const sellShares = async (data: {
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to sell shares' }
     }
-    revalidateTag('share-accounts')
-    revalidateTag('pending-share-transactions')
+    revalidateTag('share-accounts', 'default')
+    revalidateTag('pending-share-transactions', 'default')
     return json
 }
 
@@ -67,8 +67,8 @@ export const transferShares = async (data: {
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to transfer shares' }
     }
-    revalidateTag('share-accounts')
-    revalidateTag('pending-share-transactions')
+    revalidateTag('share-accounts', 'default')
+    revalidateTag('pending-share-transactions', 'default')
     return json
 }
 
@@ -87,7 +87,53 @@ export const processShareDecision = async (
     if (!response?.ok) {
         return { error: json?.message || json?.error || 'Failed to process share decision' }
     }
-    revalidateTag('share-accounts')
-    revalidateTag('pending-share-transactions')
+    revalidateTag('share-accounts', 'default')
+    revalidateTag('pending-share-transactions', 'default')
+    return json
+}
+
+export const createShareConfig = async (data: {
+    par_value: string | number
+    max_shares_per_member?: number
+    min_shares_required?: number
+    allow_member_trading?: boolean
+    approval_required?: boolean
+}) => {
+    const response = await makeApiRequest(getBaseUrl(), `/shares/config`, {
+        method: 'POST',
+        withToken: true,
+        body: data,
+        tag: 'create-share-config',
+    })
+
+    const json = await response?.json().catch(() => null)
+    if (!response?.ok) {
+        return { error: json?.message || json?.error || 'Failed to create share config' }
+    }
+    revalidateTag(`share-config`, 'default')
+    return json
+}
+
+export const updateShareConfig = async (
+    data: {
+        par_value?: string | number
+        max_shares_per_member?: number
+        min_shares_required?: number
+        allow_member_trading?: boolean
+        approval_required?: boolean
+    }
+) => {
+    const response = await makeApiRequest(getBaseUrl(), `/shares/organization/config/update`, {
+        method: 'PATCH',
+        withToken: true,
+        body: data,
+        tag: 'update-share-config',
+    })
+
+    const json = await response?.json().catch(() => null)
+    if (!response?.ok) {
+        return { error: json?.message || json?.error || 'Failed to update share config' }
+    }
+    revalidateTag(`share-config`, 'default')
     return json
 }

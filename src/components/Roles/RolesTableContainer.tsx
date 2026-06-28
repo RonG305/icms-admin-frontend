@@ -13,9 +13,9 @@ const RolesTableContainer = async ({ searchParams }: { searchParams: Promise<Sea
   const result = await getRoles({ page, limit: pageSize, search })
 
   return (
-    <Card>
+    <div>
       <RolesList data={result.data} total={result.count} />
-    </Card>
+    </div>
   )
 }
 

@@ -28,7 +28,7 @@ import { transferShares } from '@/actions/shares'
 const schema = z.object({
   from_member_id: z.string().min(1, 'From member ID is required'),
   to_member_id: z.string().min(1, 'To member ID is required'),
-  number_of_shares: z.coerce.number().int().positive('Must be a positive integer'),
+  number_of_shares: z.string().min(1, 'Required').refine((v) => Number.isInteger(Number(v)) && Number(v) > 0, 'Must be a positive integer'),
   payment_reference: z.string().optional(),
   notes: z.string().optional(),
 })
@@ -50,7 +50,7 @@ export function TransferSharesDialog({ defaultFromMemberId, open, onOpenChange, 
     defaultValues: {
       from_member_id: defaultFromMemberId ?? '',
       to_member_id: '',
-      number_of_shares: 1,
+      number_of_shares: '1',
       payment_reference: '',
       notes: '',
     },
@@ -62,7 +62,7 @@ export function TransferSharesDialog({ defaultFromMemberId, open, onOpenChange, 
       const result = await transferShares({
         from_member_id: values.from_member_id,
         to_member_id: values.to_member_id,
-        number_of_shares: values.number_of_shares,
+        number_of_shares: parseInt(values.number_of_shares, 10),
         payment_reference: values.payment_reference || undefined,
         notes: values.notes || undefined,
       })

@@ -43,12 +43,22 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Nav design tokens */
+  --color-nav-item-text: var(--nav-item-text);
+  --color-nav-label: var(--nav-label);
+  --color-nav-active-bg: var(--nav-active-bg);
+  --color-nav-active-text: var(--nav-active-text);
+  --color-nav-hover-bg: var(--nav-hover-bg);
+  --color-nav-border: var(--nav-border);
+  --color-nav-badge-bg: var(--nav-badge-bg);
+  --color-muted-light: var(--muted-light);
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(95.296% 0.00599 240.367);
-  --foreground: oklch(0.13 0.01 240);
+  --background: #F0F3F2;
+  --foreground: oklch(31.196% 0.02861 250.809);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.13 0.01 240);
   --popover: oklch(1 0 0);
@@ -61,7 +71,8 @@
   --secondary: #1D1B1B;
   --secondary-foreground: oklch(0.2 0.01 240);
   --muted: oklch(0.947 0.005 240);
-  --muted-foreground: oklch(0.5 0.008 240);
+  --muted-foreground: #62748e;
+  --muted-light: #414651;
   --accent: oklch(0.947 0.005 240);
   --accent-foreground: oklch(0.2 0.01 240);
   --destructive: oklch(0.577 0.245 27.325);
@@ -75,12 +86,20 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.13 0.01 240);
-  --sidebar-primary: oklch(0.2 0.01 240);
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.947 0.005 240);
   --sidebar-accent-foreground: oklch(0.2 0.01 240);
   --sidebar-border: oklch(0.906 0.006 240);
   --sidebar-ring: oklch(0.65 0.01 240);
+
+  --nav-item-text: #344054;
+  --nav-label: #62748e;
+  --nav-active-bg: color-mix(in srgb, var(--primary) 8%, white);
+  --nav-active-text: var(--primary);
+  --nav-hover-bg: #f5f6f8;
+  --nav-border: #e4e7ec;
+  --nav-badge-bg: #ef4444;
 }
 
 .dark {
@@ -112,12 +131,21 @@
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.165 0.008 240);
   --sidebar-foreground: oklch(0.96 0.005 240);
-  --sidebar-primary: #018749;
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.255 0.008 240);
   --sidebar-accent-foreground: oklch(0.96 0.005 240);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(1 0 0 / 20%);
+
+
+  --nav-item-text: oklch(0.88 0.005 240);
+  --nav-label: oklch(0.55 0.008 240);
+  --nav-active-bg: color-mix(in srgb, var(--primary) 15%, oklch(0.165 0.008 240));
+  --nav-active-text: var(--primary);
+  --nav-hover-bg: oklch(0.22 0.008 240);
+  --nav-border: oklch(0.3 0.008 240);
+  --nav-badge-bg: #ef4444;
 }
 
 @layer base {

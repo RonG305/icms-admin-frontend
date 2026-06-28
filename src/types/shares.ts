@@ -37,3 +37,22 @@ export interface ShareConfig {
     created_at?: string;
     updated_at?: string;
 }
+
+export interface ShareAccountSummary {
+    account_number: string;
+    total_shares: number;
+    total_value: string;
+    total_bought: number;
+    total_sold: number;
+    transaction_count: number;
+}
+
+export interface ShareStatement {
+    id: string;
+    transaction_type: string;
+    number_of_shares: number;
+    amount: string;
+    balance_after?: number;
+    notes?: string;
+    created_at: string;
+}
